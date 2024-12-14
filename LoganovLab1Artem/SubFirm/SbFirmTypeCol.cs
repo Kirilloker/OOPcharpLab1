@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 namespace LoganovLab1Artem.SubFirmSpace
 {
-    public class SbFirmTypeCol : IEnumerator<SubFirmType>, IEnumerable<SubFirmType>
+    public class SbFirmTypeCol : IEnumerator<SbFirmType>, IEnumerable<SbFirmType>
     {
-        private List<SubFirmType> _lst;
+        private List<SbFirmType> _lst;
         private int _position = 0;
 
         public int Count => _lst.Count;
 
-        public SubFirmType Current => _lst[_position];
+        public SbFirmType Current => _lst[_position];
 
         object IEnumerator.Current => Current;
 
-        public SubFirmType this[int index]
+        public SbFirmType this[int index]
         {
             get => _lst[index];
             set => _lst[index] = value;
@@ -23,16 +23,16 @@ namespace LoganovLab1Artem.SubFirmSpace
 
         public SbFirmTypeCol()
         {
-            _lst = new List<SubFirmType>();
+            _lst = new List<SbFirmType>();
         }
 
-        public void Add(SubFirmType type)
+        public void Add(SbFirmType type)
         {
             if (type == null)
                 return;
 
             bool exists = false;
-            foreach (SubFirmType t in _lst)
+            foreach (SbFirmType t in _lst)
             {
                 if (t.Name == type.Name)
                 {
@@ -48,12 +48,12 @@ namespace LoganovLab1Artem.SubFirmSpace
         }
 
 
-        public SubFirmType GetByName(string name)
+        public SbFirmType GetByName(string name)
         {
             if (string.IsNullOrEmpty(name))
                 return null;
 
-            foreach (SubFirmType type in _lst)
+            foreach (SbFirmType type in _lst)
             {
                 if (string.Equals(type.Name, name, StringComparison.OrdinalIgnoreCase))
                 {
@@ -69,7 +69,7 @@ namespace LoganovLab1Artem.SubFirmSpace
             Reset();
         }
 
-        public IEnumerator<SubFirmType> GetEnumerator()
+        public IEnumerator<SbFirmType> GetEnumerator()
         {
             return this;
         }

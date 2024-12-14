@@ -13,10 +13,10 @@ namespace LoganovLab1
             FirmFactory.Instance.SetFieldNames(new string[] { "Госпрограмма", "Объем закупок", "Признак 1", "Признак 2", "Признак 3" });
 
             // Добавляем типы подразделений
-            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Основной офис", true));
-            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Отдел снабжения"));
-            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Отдел продаж"));
-            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Отдел логистики"));
+            FirmFactory.Instance.SbFirmTypes.Add(new SbFirmType("Основной офис", true));
+            FirmFactory.Instance.SbFirmTypes.Add(new SbFirmType("Отдел снабжения"));
+            FirmFactory.Instance.SbFirmTypes.Add(new SbFirmType("Отдел продаж"));
+            FirmFactory.Instance.SbFirmTypes.Add(new SbFirmType("Отдел логистики"));
 
             // Добавляем типы контактов
             FirmFactory.Instance.ContactTypes.Add(new ContType("Звонок"));
@@ -30,7 +30,7 @@ namespace LoganovLab1
             Firm firm4 = CreateFirm("ООО 'Четвертый клиент'", "Нижний Новгород", "Нижний Новгород", new[] { "Отдел логистики" }); // 2 подразделения
 
             // Создаем список фирм
-            FirmList firmList = new FirmList();
+            List firmList = new List();
             firmList.AddFirm(firm1);
             firmList.AddFirm(firm2);
             firmList.AddFirm(firm3);
@@ -38,7 +38,7 @@ namespace LoganovLab1
 
             // Фильтрация фирм по региону "Нижний Новгород"
             Console.WriteLine("\n--- Фирмы в регионе 'Нижний Новгород' ---");
-            FirmList firmsInNizhny = firmList.FilterByRegion("Нижний Новгород");
+            List firmsInNizhny = firmList.FilterByRegion("Нижний Новгород");
             foreach (Firm firm in firmsInNizhny.ToArray())
             {
                 Console.WriteLine(firm.Name);

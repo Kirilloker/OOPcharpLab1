@@ -1,4 +1,4 @@
-﻿namespace LoganovLab1
+﻿namespace LoganovLab1.Type
 {
     // Тип подразделения фирмы
     public class SbFirmType
@@ -16,5 +16,13 @@
         {
             return $"{Name}" + (IsMainOffice ? " (Основной офис)" : "");
         }
+
+        public void DeepPrint()
+        {
+            Console.WriteLine("    SbFirmType:");
+            Console.WriteLine($"      Name: {Name}");
+            Console.WriteLine($"      IsMainOffice: {IsMainOffice}");
+        }
+
     }
 }

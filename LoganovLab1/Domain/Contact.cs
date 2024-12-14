@@ -1,4 +1,6 @@
-﻿namespace LoganovLab1
+﻿using LoganovLab1.Type;
+
+namespace LoganovLab1.Domain
 {
 
     // Контакт
@@ -12,9 +14,9 @@
         {
             return new Contact
             {
-                ContactType = this.ContactType,
-                Date = this.Date,
-                Description = this.Description
+                ContactType = ContactType,
+                Date = Date,
+                Description = Description
             };
         }
 
@@ -32,12 +34,20 @@
 
         public override int GetHashCode()
         {
-            // Для простоты: хеш по сочетанию имени типа и даты
             int hash = 17;
             hash = hash * 23 + (ContactType?.Name.GetHashCode() ?? 0);
             hash = hash * 23 + Date.GetHashCode();
             hash = hash * 23 + (Description?.GetHashCode() ?? 0);
             return hash;
         }
+
+        public void DeepPrint()
+        {
+            Console.WriteLine("    Contact:");
+            Console.WriteLine($"      ContactType: {ContactType}");
+            Console.WriteLine($"      Date: {Date}");
+            Console.WriteLine($"      Description: {Description}");
+        }
+
     }
 }

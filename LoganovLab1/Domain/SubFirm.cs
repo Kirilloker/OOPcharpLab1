@@ -1,4 +1,6 @@
-﻿namespace LoganovLab1
+﻿using LoganovLab1.Type;
+
+namespace LoganovLab1.Domain
 {
     // Подразделение фирмы
     public class SubFirm
@@ -36,5 +38,22 @@
         {
             return $"{Name}, Type: {SubFirmType?.Name}";
         }
+
+        public void DeepPrint()
+        {
+            Console.WriteLine("  SubFirm:");
+            Console.WriteLine($"    Name: {Name}");
+            Console.WriteLine($"    SubFirmType: {SubFirmType}");
+            Console.WriteLine($"    ContactPerson: {ContactPerson}");
+            Console.WriteLine($"    ContactPhone: {ContactPhone}");
+            Console.WriteLine($"    ContactEmail: {ContactEmail}");
+
+            Console.WriteLine("    Contacts:");
+            foreach (var contact in _contacts)
+            {
+                contact.DeepPrint();
+            }
+        }
+
     }
 }

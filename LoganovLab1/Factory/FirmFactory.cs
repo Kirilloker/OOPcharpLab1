@@ -1,4 +1,7 @@
-﻿namespace LoganovLab1
+﻿using LoganovLab1.CollectionType;
+using LoganovLab1.Domain;
+
+namespace LoganovLab1.Factory
 {
     // Фабрика фирм (Singleton)
     public class FirmFactory
@@ -32,13 +35,16 @@
         public Firm CreateFirm()
         {
             var firm = new Firm(_userFieldNames);
+
             // Создадим основное подразделение
             var mainOfficeType = SbFirmTypes.GetMainOfficeType();
+
             if (mainOfficeType != null)
             {
                 var mainOffice = new SubFirm(mainOfficeType);
                 firm.AddSubFirm(mainOffice);
             }
+
             return firm;
         }
     }

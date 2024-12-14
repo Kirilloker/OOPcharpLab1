@@ -1,4 +1,4 @@
-﻿namespace LoganovLab1
+﻿namespace LoganovLab1.Type
 {
     // Тип контакта
     public class ContType
@@ -15,5 +15,13 @@
         {
             return $"{Name} ({Description})";
         }
+
+        public void DeepPrint()
+        {
+            Console.WriteLine("    ContType:");
+            Console.WriteLine($"      Name: {Name}");
+            Console.WriteLine($"      Description: {Description}");
+        }
+
     }
 }

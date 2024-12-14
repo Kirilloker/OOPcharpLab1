@@ -1,4 +1,9 @@
-﻿namespace LoganovLab1
+﻿using LoganovLab1.Domain;
+using LoganovLab1.Factory;
+using LoganovLab1.List;
+using LoganovLab1.Type;
+
+namespace LoganovLab1
 {
     class Program
     {
@@ -13,10 +18,10 @@
             FirmFactory.Instance.ContactTypes.AddType(new ContType("Письмо послали", "Информационное письмо"));
             FirmFactory.Instance.ContactTypes.AddType(new ContType("Коммерческое предложение", "Предложение о сотрудничестве"));
 
-            // Настройка пользовательских полей
-            FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "ProgramParticipation", "Volume", "FlagX", "FlagY" });
+            // Настройка пользовательских полей для каждой фирмы
+            FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "MarketShare", "Field3", "Field4", "Field5" });
 
-            // Создаём несколько фирм
+            // Создаём несколько фирм с разными пользовательскими полями
             var firm1 = FirmFactory.Instance.CreateFirm();
             firm1.FullName = "ООО Ромашка";
             firm1.ShortName = "Ромашка";
@@ -25,13 +30,9 @@
             firm1.Address = "ул. Цветочная, д.1";
             firm1.CEO = "Иванов И.И.";
             firm1.SetUserFieldValue("SpecialMark", "VIP");
-            // Добавим подразделение отдел снабжения
-            var sbTypeSupply = FirmFactory.Instance.SbFirmTypes.GetByName("Отдел снабжения");
-            if (sbTypeSupply != null)
-            {
-                var supplyDep = new SubFirm(sbTypeSupply, "Снабжение");
-                firm1.AddSubFirm(supplyDep);
-            }
+            firm1.SetUserFieldValue("MarketShare", "25%");
+
+            FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "EmployeeCount", "Revenue", "Field4", "Field5" });
 
             var firm2 = FirmFactory.Instance.CreateFirm();
             firm2.FullName = "ЗАО Ландыш";
@@ -40,6 +41,11 @@
             firm2.City = "Н.Новгород";
             firm2.Address = "пр. Весенний, д.10";
             firm2.CEO = "Петров П.П.";
+            firm2.SetUserFieldValue("SpecialMark", "");
+            firm2.SetUserFieldValue("EmployeeCount", "150");
+            firm2.SetUserFieldValue("Revenue", "500M RUB");
+
+            FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "InvestmentPotential", "PartnershipStatus", "Field4", "Field5" });
 
             var firm3 = FirmFactory.Instance.CreateFirm();
             firm3.FullName = "ООО Одуванчик";
@@ -48,6 +54,17 @@
             firm3.City = "Москва";
             firm3.Address = "ул. Садовая, д.3";
             firm3.CEO = "Сидоров С.С.";
+            firm3.SetUserFieldValue("SpecialMark", "Silver");
+            firm3.SetUserFieldValue("InvestmentPotential", "High");
+            firm3.SetUserFieldValue("PartnershipStatus", "В разработке");
+
+            // Добавим подразделения для фирм
+            var sbTypeSupply = FirmFactory.Instance.SbFirmTypes.GetByName("Отдел снабжения");
+            if (sbTypeSupply != null)
+            {
+                var supplyDep = new SubFirm(sbTypeSupply, "Снабжение");
+                firm1.AddSubFirm(supplyDep);
+            }
 
             // Создадим список всех фирм
             var allFirms = new FirmList();
@@ -55,8 +72,8 @@
             allFirms.AddFirm(firm2);
             allFirms.AddFirm(firm3);
 
-            // Отфильтруем фирмы из Нижнего Новгорода
-            var nnFirms = allFirms.FilterByRegion("Нижний Новгород");
+            Console.WriteLine("Список всех фирм:");
+            allFirms.DeepPrint();
 
             // Создадим прототип контакта "Письмо послали"
             var mailContactType = FirmFactory.Instance.ContactTypes.GetTypeByName("Письмо послали");
@@ -67,24 +84,17 @@
                 Description = "Отправлено приветственное письмо"
             };
 
+            // Отфильтруем фирмы из Нижнего Новгорода
+            var nnFirms = allFirms.FilterByRegion("Нижний Новгород");
+
             // Добавим контакт всем нижегородским фирмам в основной офис
             nnFirms.AddContactToAllFirms(mailPrototype);
 
-            // Проверим результат
-            Console.WriteLine("Фирмы из Н.Новгорода после добавления контакта 'Письмо послали':");
-            foreach (var f in nnFirms.ToArray())
-            {
-                Console.WriteLine(f);
-                var contacts = f.GetAllContacts();
-                foreach (var c in contacts)
-                {
-                    Console.WriteLine($"   Контакт: {c.ContactType.Name}, {c.Date}, {c.Description}");
-                }
-            }
+            Console.WriteLine("Создадим прототип контакта Письмо послали и добавим всем нижегородским фирмам в основной офис");
+            Console.WriteLine("Выведем фирмы которых коснулось изменение");
+            nnFirms.DeepPrint();
 
-            Console.WriteLine();
-
-            // Теперь добавим контакт "Коммерческое предложение" во все фирмы, у которых есть отдел снабжения
+            // Добавим контакт "Коммерческое предложение" во все фирмы, у которых есть отдел снабжения
             var commOfferType = FirmFactory.Instance.ContactTypes.GetTypeByName("Коммерческое предложение");
             var commOfferPrototype = new Contact
             {
@@ -93,20 +103,16 @@
                 Description = "Отправлено КП"
             };
 
-            // Фильтруем все фирмы по наличию отдела снабжения
             var firmsWithSupply = allFirms.FilterBySubFirmType("Отдел снабжения");
             firmsWithSupply.AddContactToAllFirmsWithSubFirmType(commOfferPrototype, "Отдел снабжения", true);
 
+            Console.WriteLine("Добавим в фирмы с отделом снабжения контакт коммерческое предложение");
             Console.WriteLine("Фирмы с 'Отдел снабжения' после добавления 'Коммерческое предложение':");
-            foreach (var f in firmsWithSupply.ToArray())
-            {
-                Console.WriteLine(f);
-                var contacts = f.GetAllContacts();
-                foreach (var c in contacts)
-                {
-                    Console.WriteLine($"   Контакт: {c.ContactType.Name}, {c.Date}, {c.Description}");
-                }
-            }
+            firmsWithSupply.DeepPrint();
+
+            Console.WriteLine("Конец программы");
+            Console.WriteLine("Вывод всех фирм");
+            allFirms.DeepPrint();
 
             Console.WriteLine();
             Console.WriteLine("Нажмите любую клавишу для выхода...");

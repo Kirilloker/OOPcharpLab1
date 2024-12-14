@@ -1,4 +1,4 @@
-﻿namespace LoganovLab1
+﻿namespace LoganovLab1.Domain
 {
     // Фирма
     public class Firm
@@ -78,5 +78,40 @@
         {
             return $"{FullName} ({ShortName}), Region: {Region}, City: {City}";
         }
+
+        public void DeepPrint()
+        {
+            Console.WriteLine("Firm:");
+            Console.WriteLine($"  FullName: {FullName}");
+            Console.WriteLine($"  ShortName: {ShortName}");
+            Console.WriteLine($"  Region: {Region}");
+            Console.WriteLine($"  City: {City}");
+            Console.WriteLine($"  Address: {Address}");
+            Console.WriteLine($"  CEO: {CEO}");
+            Console.WriteLine($"  InsertDate: {InsertDate}");
+            Console.WriteLine($"  PhoneCEO: {PhoneCEO}");
+            Console.WriteLine($"  PhoneContact: {PhoneContact}");
+            Console.WriteLine($"  Fax: {Fax}");
+            Console.WriteLine($"  Email: {Email}");
+            Console.WriteLine($"  Website: {Website}");
+            Console.WriteLine("  User Fields:");
+            foreach (var field in _userFields)
+            {
+                Console.WriteLine($"    {field.Key}: {field.Value}");
+            }
+
+            Console.WriteLine("  SubFirms:");
+            foreach (var subFirm in _subFirms)
+            {
+                subFirm.DeepPrint();
+            }
+
+            //Console.WriteLine("  Contacts:");
+            //foreach (var contact in GetAllContacts())
+            //{
+            //    contact.DeepPrint();
+            //}
+        }
+
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace LoganovLab1
+﻿using LoganovLab1.Domain;
+using LoganovLab1.Type;
+
+namespace LoganovLab1.List
 {
     // Список фирм с методами фильтрации
     public class FirmList
@@ -57,6 +60,7 @@
             foreach (var firm in _firms)
             {
                 var targetSubs = firm.GetAllSubFirms().Where(sf => sf.SubFirmType != null && sf.SubFirmType.Name == subFirmTypeName).ToArray();
+
                 if (targetSubs.Length > 0)
                 {
                     // Добавляем контакт в эти подразделения
@@ -80,6 +84,17 @@
         {
             return _firms.ToArray();
         }
+
+        public void DeepPrint()
+        {
+            Console.WriteLine("FirmList:");
+            foreach (var firm in _firms)
+            {
+                firm.DeepPrint();
+            }
+            Console.WriteLine("\n\n\n\n");
+        }
+
     }
 
 }

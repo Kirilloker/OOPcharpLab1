@@ -1,7 +1,10 @@
-﻿namespace LoganovLab1
+﻿using LoganovLab1.Type;
+using System.Collections;
+
+namespace LoganovLab1.CollectionType
 {
     // Коллекция типов контактов
-    public class ContTypeCol
+    public class ContTypeCol: IEnumerable<ContType>
     {
         private List<ContType> _types = new List<ContType>();
 
@@ -19,6 +22,16 @@
         public ContType GetTypeByName(string name)
         {
             return _types.FirstOrDefault(t => t.Name == name);
+        }
+
+        public IEnumerator<ContType> GetEnumerator()
+        {
+            return _types.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

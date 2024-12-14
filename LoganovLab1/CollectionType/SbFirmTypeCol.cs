@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LoganovLab1.Type;
 
-namespace LoganovLab1
+namespace LoganovLab1.CollectionType
 {
     // Коллекция типов подразделений
-    public class SbFirmTypeCol
+    public class SbFirmTypeCol : IEnumerable<SbFirmType>
     {
         private List<SbFirmType> _types = new List<SbFirmType>();
 
@@ -30,6 +26,15 @@ namespace LoganovLab1
         public SbFirmType GetByName(string name)
         {
             return _types.FirstOrDefault(t => t.Name == name);
+        }
+
+        public IEnumerator<SbFirmType> GetEnumerator()
+        {
+            return _types.GetEnumerator(); 
+        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator(); 
         }
     }
 }

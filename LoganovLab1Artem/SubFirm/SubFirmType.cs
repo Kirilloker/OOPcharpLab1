@@ -2,18 +2,29 @@
 {
     public class SubFirmType
     {
-        public string Name { get; set; }
-        public bool IsMainOffice { get; set; }
+        private bool _isMain;
+        private string _name;
 
-        public SubFirmType(string name, bool isMainOffice = false)
+        public bool IsMain
         {
-            Name = name;
-            IsMainOffice = isMainOffice;
+            get => _isMain;
+            set => _isMain = value;
+        }
+
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
+        public SubFirmType(string name, bool isMain = false)
+        {
+            _name = name;
+            _isMain = isMain;
         }
 
         public override string ToString()
         {
-            return Name + (IsMainOffice ? " (Основной офис)" : "");
+            return _name + (_isMain ? " (Основной офис)" : "");
         }
     }
 }

@@ -1,76 +1,95 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoganovLab1Artem.SubFirmSpace
 {
-    // Коллекция типов подразделений фирмы
-    public class SybFirmTypeCollection : IEnumerable<SubFirmType>
+    public class SbFirmTypeCol : IEnumerator<SubFirmType>, IEnumerable<SubFirmType>
     {
-        private List<SubFirmType> _types;
+        private List<SubFirmType> _lst;
+        private int _position = 0;
 
-        public SybFirmTypeCollection()
+        public int Count => _lst.Count;
+
+        public SubFirmType Current => _lst[_position];
+
+        object IEnumerator.Current => Current;
+
+        public SubFirmType this[int index]
         {
-            _types = new List<SubFirmType>();
+            get => _lst[index];
+            set => _lst[index] = value;
         }
 
-        public void AddType(SubFirmType type)
+        public SbFirmTypeCol()
         {
-            if (type != null)
+            _lst = new List<SubFirmType>();
+        }
+
+        public void Add(SubFirmType type)
+        {
+            if (type == null)
+                return;
+
+            bool exists = false;
+            foreach (SubFirmType t in _lst)
             {
-                bool exists = false;
-                foreach (SubFirmType t in _types)
+                if (t.Name == type.Name)
                 {
-                    if (t.Name == type.Name)
-                    {
-                        exists = true;
-                        break;
-                    }
+                    exists = true;
+                    break;
                 }
-                if (!exists)
-                {
-                    _types.Add(type);
-                }
+            }
+
+            if (!exists)
+            {
+                _lst.Add(type);
             }
         }
 
-        public SubFirmType[] ToArray()
-        {
-            return _types.ToArray();
-        }
-
-        public SubFirmType GetMainOfficeType()
-        {
-            foreach (SubFirmType t in _types)
-            {
-                if (t.IsMainOffice)
-                {
-                    return t;
-                }
-            }
-            return null;
-        }
 
         public SubFirmType GetByName(string name)
         {
-            foreach (SubFirmType t in _types)
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            foreach (SubFirmType type in _lst)
             {
-                if (t.Name == name)
+                if (string.Equals(type.Name, name, StringComparison.OrdinalIgnoreCase))
                 {
-                    return t;
+                    return type;
                 }
             }
+
             return null;
+        }
+
+        public void Dispose()
+        {
+            Reset();
         }
 
         public IEnumerator<SubFirmType> GetEnumerator()
         {
-            return _types.GetEnumerator();
+            return this;
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        public bool MoveNext()
+        {
+            if (_position < _lst.Count - 1)
+            {
+                _position++;
+                return true;
+            }
+            return false;
+        }
+
+        public void Reset()
+        {
+            _position = 0;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }

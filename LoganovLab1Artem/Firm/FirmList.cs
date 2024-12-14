@@ -52,7 +52,7 @@ namespace LoganovLab1Artem.FirmSpace
             {
                 foreach (SubFirm subFirm in firm.GetAllSubFirms())
                 {
-                    if (subFirm.SubFirmType != null && subFirm.SubFirmType.Name == subFirmTypeName)
+                    if (subFirm.SbFirmTpy != null && subFirm.SbFirmTpy.Name == subFirmTypeName)
                     {
                         filtered.Add(firm);
                         break;
@@ -69,9 +69,9 @@ namespace LoganovLab1Artem.FirmSpace
             {
                 foreach (Contact contact in firm.GetAllContacts())
                 {
-                    if (contact.ContactType == contactType &&
-                        (start == null || contact.Date >= start) &&
-                        (end == null || contact.Date <= end))
+                    if (contact.CntType == contactType &&
+                        (start == null || contact.BeginDt >= start) &&
+                        (end == null || contact.EndDt <= end))
                     {
                         filtered.Add(firm);
                         break;
@@ -86,7 +86,7 @@ namespace LoganovLab1Artem.FirmSpace
             foreach (Firm firm in _firms)
             {
                 Contact clone = prototype.Clone();
-                firm.AddContactToMainOffice(clone);
+                firm.AddContactToMainOffice(clone); 
             }
         }
 
@@ -97,9 +97,9 @@ namespace LoganovLab1Artem.FirmSpace
                 bool subFirmFound = false;
                 foreach (SubFirm subFirm in firm.GetAllSubFirms())
                 {
-                    if (subFirm.SubFirmType != null && subFirm.SubFirmType.Name == subFirmTypeName)
+                    if (subFirm.SbFirmTpy != null && subFirm.SbFirmTpy.Name == subFirmTypeName)
                     {
-                        subFirm.AddContact(prototype.Clone());
+                        subFirm.AddCont(prototype.Clone());
                         subFirmFound = true;
                     }
                 }

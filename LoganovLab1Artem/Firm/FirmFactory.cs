@@ -1,16 +1,15 @@
-﻿using LoganovLab1Artem.ContactSpace;
-using LoganovLab1Artem.SubFirmSpace;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LoganovLab1Artem.SubFirmSpace;
+using LoganovLab1Artem.ContactSpace;
 
 namespace LoganovLab1Artem.FirmSpace
 {
     public class FirmFactory
     {
+        private string[] flds;
+        private string NameMain;
+
         private static FirmFactory _instance;
+
         public static FirmFactory Instance
         {
             get
@@ -20,33 +19,44 @@ namespace LoganovLab1Artem.FirmSpace
             }
         }
 
-        private string[] _userFieldNames = new string[] { "Field1", "Field2", "Field3", "Field4", "Field5" };
-        public SybFirmTypeCollection SbFirmTypes { get; private set; }
+        // Коллекции типов подразделений и контактов
+        public SbFirmTypeCol SbFirmTypes { get; private set; }
         public ContTypeCol ContactTypes { get; private set; }
 
         private FirmFactory()
         {
-            SbFirmTypes = new SybFirmTypeCollection();
+            flds = new string[] { "Field1", "Field2", "Field3", "Field4", "Field5" };
+            SbFirmTypes = new SbFirmTypeCol();
             ContactTypes = new ContTypeCol();
+            NameMain = "Основное подраздление";
         }
 
-        public void SetUserFieldNames(string[] fieldNames)
+        public void SetFieldNames(string[] fieldNames)
         {
             if (fieldNames != null && fieldNames.Length == 5)
-                _userFieldNames = fieldNames;
+            {
+                flds = fieldNames;
+            }
         }
 
-        public Firm CreateFirm()
+        public string[] GetFieldNames()
         {
-            var firm = new Firm(_userFieldNames);
+            return flds;
+        }
 
-            // Создадим основное подразделение
-            var mainOfficeType = SbFirmTypes.GetMainOfficeType();
+        public Firm Create()
+        {
+            var firm = new Firm(flds);
 
-            if (mainOfficeType != null)
+            if (!string.IsNullOrEmpty(NameMain))
             {
-                var mainOffice = new SubFirm(mainOfficeType);
-                firm.AddSubFirm(mainOffice);
+                // Создаем главное подразделение, если указано NameMain
+                var mainOfficeType = SbFirmTypes.GetEnumerator().Current;
+                if (mainOfficeType != null && mainOfficeType.IsMain)
+                {
+                    var mainOffice = new SubFirm(mainOfficeType);
+                    firm.AddSbFirm(mainOffice);
+                }
             }
 
             return firm;

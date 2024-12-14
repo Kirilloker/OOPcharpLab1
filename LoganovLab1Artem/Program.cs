@@ -1,4 +1,5 @@
-﻿using LoganovLab1Artem.ContactSpace;
+﻿using System;
+using LoganovLab1Artem.ContactSpace;
 using LoganovLab1Artem.FirmSpace;
 using LoganovLab1Artem.SubFirmSpace;
 
@@ -8,99 +9,117 @@ namespace LoganovLab1
     {
         static void Main(string[] args)
         {
-            // Устанавливаем пользовательские названия полей для фабрики фирм
-            FirmFactory.Instance.SetUserFieldNames(new string[] { "Госпрограмма", "Объем закупок", "Признак 1", "Признак 2", "Признак 3" });
+            // Настраиваем пользовательские поля для фабрики фирм
+            FirmFactory.Instance.SetFieldNames(new string[] { "Госпрограмма", "Объем закупок", "Признак 1", "Признак 2", "Признак 3" });
 
-            // Добавляем типы подразделений и типы контактов
-            FirmFactory.Instance.SbFirmTypes.AddType(new SubFirmType("Основной офис", true));
-            FirmFactory.Instance.SbFirmTypes.AddType(new SubFirmType("Отдел снабжения"));
-            FirmFactory.Instance.ContactTypes.AddType(new ContType("Звонок"));
-            FirmFactory.Instance.ContactTypes.AddType(new ContType("Письмо"));
-            FirmFactory.Instance.ContactTypes.AddType(new ContType("Коммерческое предложение"));
+            // Добавляем типы подразделений
+            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Основной офис", true));
+            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Отдел снабжения"));
+            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Отдел продаж"));
+            FirmFactory.Instance.SbFirmTypes.Add(new SubFirmType("Отдел логистики"));
 
-            // Создаем 4 фирмы
-            Firm firm1 = FirmFactory.Instance.CreateFirm();
-            firm1.FullName = "ООО 'Первый клиент'";
-            firm1.ShortName = "Первый";
-            firm1.Region = "Москва";
-            firm1.City = "Москва";
+            // Добавляем типы контактов
+            FirmFactory.Instance.ContactTypes.Add(new ContType("Звонок"));
+            FirmFactory.Instance.ContactTypes.Add(new ContType("Письмо"));
+            FirmFactory.Instance.ContactTypes.Add(new ContType("Коммерческое предложение"));
 
-            Firm firm2 = FirmFactory.Instance.CreateFirm();
-            firm2.FullName = "АО 'Второй клиент'";
-            firm2.ShortName = "Второй";
-            firm2.Region = "Санкт-Петербург";
-            firm2.City = "Санкт-Петербург";
+            // Создаем 4 фирмы с разным количеством подразделений
+            Firm firm1 = CreateFirm("ООО 'Первый клиент'", "Москва", "Москва", new[] { "Отдел снабжения", "Отдел продаж" }); // 3 подразделения
+            Firm firm2 = CreateFirm("АО 'Второй клиент'", "Санкт-Петербург", "Санкт-Петербург", new[] { "Отдел продаж" }); // 1 подразделение
+            Firm firm3 = CreateFirm("ЗАО 'Третий клиент'", "Нижний Новгород", "Нижний Новгород", new[] { "Отдел снабжения", "Отдел продаж", "Отдел логистики" }); // 4 подразделения
+            Firm firm4 = CreateFirm("ООО 'Четвертый клиент'", "Нижний Новгород", "Нижний Новгород", new[] { "Отдел логистики" }); // 2 подразделения
 
-            Firm firm3 = FirmFactory.Instance.CreateFirm();
-            firm3.FullName = "ЗАО 'Третий клиент'";
-            firm3.ShortName = "Третий";
-            firm3.Region = "Нижний Новгород";
-            firm3.City = "Нижний Новгород";
-
-            Firm firm4 = FirmFactory.Instance.CreateFirm();
-            firm4.FullName = "ООО 'Четвертый клиент'";
-            firm4.ShortName = "Четвертый";
-            firm4.Region = "Нижний Новгород";
-            firm4.City = "Нижний Новгород";
-
-            // Добавляем фирмы в общий список
+            // Создаем список фирм
             FirmList firmList = new FirmList();
             firmList.AddFirm(firm1);
             firmList.AddFirm(firm2);
             firmList.AddFirm(firm3);
             firmList.AddFirm(firm4);
 
-            // Демонстрация работы фильтрации по региону
-            Console.WriteLine("\n--- Список фирм в регионе 'Нижний Новгород' ---");
+            // Фильтрация фирм по региону "Нижний Новгород"
+            Console.WriteLine("\n--- Фирмы в регионе 'Нижний Новгород' ---");
             FirmList firmsInNizhny = firmList.FilterByRegion("Нижний Новгород");
             foreach (Firm firm in firmsInNizhny.ToArray())
             {
-                Console.WriteLine(firm);
+                Console.WriteLine(firm.Name);
             }
 
-            // Демонстрация добавления контакта "Письмо послали" всем фирмам из Нижнего Новгорода
-            Console.WriteLine("\n--- Добавление контакта 'Письмо послали' всем фирмам из Нижнего Новгорода ---");
-            Contact contact = new Contact
+            // Добавление контакта "Письмо" всем фирмам из Нижнего Новгорода
+            Contact letterContact = new Contact
             {
-                ContactType = FirmFactory.Instance.ContactTypes.GetTypeByName("Письмо"),
-                Description = "Письмо послали",
-                Date = DateTime.Now
+                CntType = FirmFactory.Instance.ContactTypes.GetByName("Письмо"),
+                Descr = "Письмо отправлено",
+                BeginDt = DateTime.Now
             };
-            firmsInNizhny.AddContactToAllFirms(contact);
+            firmsInNizhny.AddContactToAllFirms(letterContact);
 
-            // Отобразим все контакты фирм из Нижнего Новгорода
-            Console.WriteLine("\n--- Список контактов фирм из региона 'Нижний Новгород' ---");
+            // Отображение контактов фирм из Нижнего Новгорода
+            Console.WriteLine("\n--- Контакты фирм из Нижнего Новгорода ---");
             foreach (Firm firm in firmsInNizhny.ToArray())
             {
-                Console.WriteLine("\nФирма: " + firm.FullName);
-                foreach (Contact c in firm.GetAllContacts())
+                Console.WriteLine($"\nФирма: {firm.Name}");
+                foreach (Contact contact in firm.GetAllContacts())
                 {
-                    Console.WriteLine($"Контакт: {c.ContactType.Name}, Описание: {c.Description}, Дата: {c.Date}");
+                    Console.WriteLine($"Контакт: {contact.CntType.Name}, Описание: {contact.Descr}, Дата: {contact.BeginDt}");
                 }
             }
 
-            // Демонстрация добавления контакта "Коммерческое предложение" для всех фирм с подразделением "Отдел снабжения"
-            Console.WriteLine("\n--- Добавление контакта 'Коммерческое предложение' фирмам с 'Отдел снабжения' ---");
-            Contact commercialOffer = new Contact
+            // Добавление контакта "Коммерческое предложение" фирмам с подразделением "Отдел снабжения"
+            Console.WriteLine("\n--- Добавление 'Коммерческое предложение' фирмам с подразделением 'Отдел снабжения' ---");
+            Contact offerContact = new Contact
             {
-                ContactType = FirmFactory.Instance.ContactTypes.GetTypeByName("Коммерческое предложение"),
-                Description = "Отправлено коммерческое предложение",
-                Date = DateTime.Now
+                CntType = FirmFactory.Instance.ContactTypes.GetByName("Коммерческое предложение"),
+                Descr = "Отправлено коммерческое предложение",
+                BeginDt = DateTime.Now
             };
-            firmList.AddContactToAllFirmsWithSubFirmType(commercialOffer, "Отдел снабжения", true);
+            firmList.AddContactToAllFirmsWithSubFirmType(offerContact, "Отдел снабжения");
 
-            // Отобразим все контакты для всех фирм
-            Console.WriteLine("\n--- Список всех фирм и их контактов ---");
+            // Отображение всех контактов всех фирм
+            Console.WriteLine("\n--- Все фирмы и их контакты ---");
             foreach (Firm firm in firmList.ToArray())
             {
-                Console.WriteLine("\nФирма: " + firm.FullName);
-                foreach (Contact c in firm.GetAllContacts())
+                Console.WriteLine($"\nФирма: {firm.Name}");
+                foreach (Contact contact in firm.GetAllContacts())
                 {
-                    Console.WriteLine($"Контакт: {c.ContactType.Name}, Описание: {c.Description}, Дата: {c.Date}");
+                    Console.WriteLine($"Контакт: {contact.CntType.Name}, Описание: {contact.Descr}, Дата: {contact.BeginDt}");
                 }
             }
 
-            Console.WriteLine("\n--- Работа программы завершена ---");
+            // Отображение всех подразделений всех фирм
+            Console.WriteLine("\n--- Все фирмы и их подразделения ---");
+            foreach (Firm firm in firmList.ToArray())
+            {
+                Console.WriteLine($"\nФирма: {firm.Name}");
+                var subFirms = firm.GetAllSubFirms();
+                Console.WriteLine($"  Подразделения ({subFirms.Length}):");
+                foreach (var subFirm in subFirms)
+                {
+                    Console.WriteLine($"  - {subFirm.Name} ({(subFirm.IsMain ? "Главное" : "Второстепенное")})");
+                }
+            }
+
+            Console.WriteLine("\n--- Программа завершена ---");
+        }
+
+
+        static Firm CreateFirm(string name, string region, string town, string[] subFirmTypes)
+        {
+            Firm firm = FirmFactory.Instance.Create();
+            firm.Name = name;
+            firm.Region = region;
+            firm.Town = town;
+
+            // Добавляем указанные подразделения к фирме
+            foreach (string subFirmTypeName in subFirmTypes)
+            {
+                var subFirmType = FirmFactory.Instance.SbFirmTypes.GetByName(subFirmTypeName);
+                if (subFirmType != null)
+                {
+                    firm.AddSbFirm(new SubFirm(subFirmType, subFirmTypeName));
+                }
+            }
+
+            return firm;
         }
     }
 }

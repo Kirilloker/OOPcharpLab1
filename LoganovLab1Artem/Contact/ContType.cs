@@ -1,25 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoganovLab1Artem.ContactSpace
 {
     public class ContType
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        private string _name;
+        private string _note;
 
-        public ContType(string name, string description = "")
+        public string Name
         {
-            Name = name;
-            Description = description;
+            get => _name;
+            set => _name = value;
+        }
+
+        public string Note
+        {
+            get => _note;
+            set => _note = value;
+        }
+
+        public ContType(string name, string note = "")
+        {
+            _name = name;
+            _note = note;
         }
 
         public override string ToString()
         {
-            return Name + (string.IsNullOrEmpty(Description) ? "" : " (" + Description + ")");
+            return _name + (string.IsNullOrEmpty(_note) ? "" : " (" + _note + ")");
         }
     }
 }

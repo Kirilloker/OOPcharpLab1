@@ -1,57 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LoganovLab1Artem.ContactSpace
+﻿namespace LoganovLab1Artem.ContactSpace
 {
-    public class ContTypeCol 
+    public class ContTypeCol
     {
-        private List<ContType> _types;
+        private List<ContType> _lst;
+
+        public int Count => _lst.Count;
+
+        public ContType this[int index]
+        {
+            get => _lst[index];
+            set => _lst[index] = value;
+        }
 
         public ContTypeCol()
         {
-            _types = new List<ContType>();
+            _lst = new List<ContType>();
         }
 
-        public void AddType(ContType type)
+        public void Add(ContType type)
         {
-            if (type != null)
+            if (type != null && !_lst.Exists(t => t.Name == type.Name))
             {
-                bool exists = false;
-                foreach (ContType t in _types)
-                {
-                    if (t.Name == type.Name)
-                    {
-                        exists = true;
-                        break;
-                    }
-                }
-                if (!exists)
-                {
-                    _types.Add(type);
-                }
+                _lst.Add(type);
             }
+        }
+
+        public void Clear()
+        {
+            _lst.Clear();
         }
 
         public ContType[] ToArray()
         {
-            return _types.ToArray();
+            return _lst.ToArray();
         }
 
-        public ContType GetTypeByName(string name)
+        public ContType GetByName(string name)
         {
-            foreach (ContType t in _types)
-            {
-                if (t.Name == name)
-                {
-                    return t;
-                }
-            }
-            return null;
+            return _lst.Find(type => type.Name == name);
         }
     }
 }
-
-

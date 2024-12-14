@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoganovLab1", "LoganovLab1\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoganovLab1Artem", "LoganovLab1Artem\LoganovLab1Artem.csproj", "{BE017348-304C-4726-9689-268639059550}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab1Test", "Lab1Test\Lab1Test.csproj", "{04161110-5DC5-4DFA-9000-87067A1E44D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab1TestArtem", "Lab1TestArtem\Lab1TestArtem.csproj", "{4E041828-5C7A-4B8E-88C4-5FE54D865ED9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{BE017348-304C-4726-9689-268639059550}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE017348-304C-4726-9689-268639059550}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE017348-304C-4726-9689-268639059550}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04161110-5DC5-4DFA-9000-87067A1E44D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04161110-5DC5-4DFA-9000-87067A1E44D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04161110-5DC5-4DFA-9000-87067A1E44D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04161110-5DC5-4DFA-9000-87067A1E44D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E041828-5C7A-4B8E-88C4-5FE54D865ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E041828-5C7A-4B8E-88C4-5FE54D865ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E041828-5C7A-4B8E-88C4-5FE54D865ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E041828-5C7A-4B8E-88C4-5FE54D865ED9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

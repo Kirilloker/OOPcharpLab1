@@ -32,7 +32,7 @@ namespace LoganovLab1.List
             return new FirmList(filtered);
         }
 
-        public FirmList FilterByContactType(ContType contactType, DateTime? start = null, DateTime? end = null)
+        public FirmList FilterByContactType(ContactType contactType, DateTime? start = null, DateTime? end = null)
         {
             var filtered = _firms.Where(f =>
             {

@@ -17,13 +17,13 @@ namespace LoganovLab1.Factory
         }
 
         private string[] _userFieldNames = new string[] { "Field1", "Field2", "Field3", "Field4", "Field5" };
-        public SbFirmTypeCol SbFirmTypes { get; private set; }
-        public ContTypeCol ContactTypes { get; private set; }
+        public SubFirmTypeColleciton SubFirmTypes { get; private set; }
+        public ContactTypeCollection ContactTypes { get; private set; }
 
         private FirmFactory()
         {
-            SbFirmTypes = new SbFirmTypeCol();
-            ContactTypes = new ContTypeCol();
+            SubFirmTypes = new SubFirmTypeColleciton();
+            ContactTypes = new ContactTypeCollection();
         }
 
         public void SetUserFieldNames(string[] fieldNames)
@@ -37,7 +37,7 @@ namespace LoganovLab1.Factory
             var firm = new Firm(_userFieldNames);
 
             // Создадим основное подразделение
-            var mainOfficeType = SbFirmTypes.GetMainOfficeType();
+            var mainOfficeType = SubFirmTypes.GetMainOfficeType();
 
             if (mainOfficeType != null)
             {

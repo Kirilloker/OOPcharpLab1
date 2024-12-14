@@ -6,14 +6,14 @@ namespace LoganovLab1.Domain
     public class SubFirm
     {
         public string Name { get; set; }
-        public SbFirmType SubFirmType { get; set; }
+        public SubFirmType SubFirmType { get; set; }
         public string ContactPerson { get; set; }
         public string ContactPhone { get; set; }
         public string ContactEmail { get; set; }
 
         private List<Contact> _contacts = new List<Contact>();
 
-        public SubFirm(SbFirmType type, string name = "")
+        public SubFirm(SubFirmType type, string name = "")
         {
             SubFirmType = type;
             Name = string.IsNullOrEmpty(name) ? type?.Name : name;

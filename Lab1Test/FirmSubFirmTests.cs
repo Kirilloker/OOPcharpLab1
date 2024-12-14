@@ -20,7 +20,7 @@ namespace Lab1Test
         public void AddSubFirm_ShouldAddSubFirmToEmptyList()
         {
             // Arrange
-            var subFirm = new SubFirm(new SbFirmType("Отдел продаж"));
+            var subFirm = new SubFirm(new SubFirmType("Отдел продаж"));
 
             // Act
             _firm.AddSubFirm(subFirm);
@@ -35,9 +35,9 @@ namespace Lab1Test
         public void AddSubFirm_ShouldAddMultipleSubFirms()
         {
             // Arrange
-            var subFirm1 = new SubFirm(new SbFirmType("Отдел продаж"));
-            var subFirm2 = new SubFirm(new SbFirmType("Отдел маркетинга"));
-            var subFirm3 = new SubFirm(new SbFirmType("Отдел логистики"));
+            var subFirm1 = new SubFirm(new SubFirmType("Отдел продаж"));
+            var subFirm2 = new SubFirm(new SubFirmType("Отдел маркетинга"));
+            var subFirm3 = new SubFirm(new SubFirmType("Отдел логистики"));
 
             // Act
             _firm.AddSubFirm(subFirm1);
@@ -67,7 +67,7 @@ namespace Lab1Test
         public void RemoveSubFirm_ShouldRemoveExistingSubFirm()
         {
             // Arrange
-            var subFirm = new SubFirm(new SbFirmType("Отдел продаж"));
+            var subFirm = new SubFirm(new SubFirmType("Отдел продаж"));
             _firm.AddSubFirm(subFirm);
 
             // Act
@@ -83,7 +83,7 @@ namespace Lab1Test
         public void RemoveSubFirm_ShouldHandleNonExistingSubFirm()
         {
             // Arrange
-            var subFirm = new SubFirm(new SbFirmType("Отдел продаж"));
+            var subFirm = new SubFirm(new SubFirmType("Отдел продаж"));
 
             // Act
             var removed = _firm.RemoveSubFirm(subFirm);
@@ -106,8 +106,8 @@ namespace Lab1Test
         public void RemoveSubFirm_ShouldNotContainRemovedSubFirm()
         {
             // Arrange
-            var subFirm1 = new SubFirm(new SbFirmType("Отдел продаж"));
-            var subFirm2 = new SubFirm(new SbFirmType("Отдел маркетинга"));
+            var subFirm1 = new SubFirm(new SubFirmType("Отдел продаж"));
+            var subFirm2 = new SubFirm(new SubFirmType("Отдел маркетинга"));
             _firm.AddSubFirm(subFirm1);
             _firm.AddSubFirm(subFirm2);
 
@@ -124,8 +124,8 @@ namespace Lab1Test
         public void GetAllSubFirms_ShouldReturnCorrectArray()
         {
             // Arrange
-            var subFirm1 = new SubFirm(new SbFirmType("Отдел продаж"));
-            var subFirm2 = new SubFirm(new SbFirmType("Отдел маркетинга"));
+            var subFirm1 = new SubFirm(new SubFirmType("Отдел продаж"));
+            var subFirm2 = new SubFirm(new SubFirmType("Отдел маркетинга"));
             _firm.AddSubFirm(subFirm1);
             _firm.AddSubFirm(subFirm2);
 

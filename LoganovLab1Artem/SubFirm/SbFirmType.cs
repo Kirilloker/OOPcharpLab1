@@ -1,6 +1,6 @@
 ﻿namespace LoganovLab1Artem.SubFirmSpace
 {
-    public class SubFirmType
+    public class SbFirmType
     {
         private bool _isMain;
         private string _name;
@@ -16,7 +16,7 @@
             get => _name;
             set => _name = value;
         }
-        public SubFirmType(string name, bool isMain = false)
+        public SbFirmType(string name, bool isMain = false)
         {
             _name = name;
             _isMain = isMain;

@@ -9,7 +9,7 @@ public class FirmTests
     public void AddCont_ShouldAddContactToFirstSubFirm_WhenSubFirmExists()
     {
         var firm = new Firm(new string[] { "Field1", "Field2" });
-        var subFirm = new SubFirm(new SubFirmType("Type1"));
+        var subFirm = new SubFirm(new SbFirmType("Type1"));
         firm.AddSbFirm(subFirm);
         var contact = new Contact { Descr = "New Contact" };
 
@@ -23,8 +23,8 @@ public class FirmTests
     public void AddContToSbFirm_ShouldAddContactToSpecificSubFirm()
     {
         var firm = new Firm(new string[] { "Field1", "Field2" });
-        var subFirm1 = new SubFirm(new SubFirmType("Type1"));
-        var subFirm2 = new SubFirm(new SubFirmType("Type2"));
+        var subFirm1 = new SubFirm(new SbFirmType("Type1"));
+        var subFirm2 = new SubFirm(new SbFirmType("Type2"));
         firm.AddSbFirm(subFirm1);
         firm.AddSbFirm(subFirm2);
         var contact = new Contact { Descr = "Special Contact" };
@@ -39,7 +39,7 @@ public class FirmTests
     public void AddSbFirm_ShouldAddSubFirmToFirm()
     {
         var firm = new Firm(new string[] { "Field1", "Field2" });
-        var subFirm = new SubFirm(new SubFirmType("Type1"));
+        var subFirm = new SubFirm(new SbFirmType("Type1"));
 
         firm.AddSbFirm(subFirm);
 
@@ -50,8 +50,8 @@ public class FirmTests
     public void GetAllSubFirms_ShouldReturnAllSubFirms()
     {
         var firm = new Firm(new string[] { "Field1", "Field2" });
-        var subFirm1 = new SubFirm(new SubFirmType("Type1"));
-        var subFirm2 = new SubFirm(new SubFirmType("Type2"));
+        var subFirm1 = new SubFirm(new SbFirmType("Type1"));
+        var subFirm2 = new SubFirm(new SbFirmType("Type2"));
         firm.AddSbFirm(subFirm1);
         firm.AddSbFirm(subFirm2);
 
@@ -64,8 +64,8 @@ public class FirmTests
     public void GetAllContacts_ShouldReturnAllContactsFromAllSubFirms()
     {
         var firm = new Firm(new string[] { "Field1", "Field2" });
-        var subFirm1 = new SubFirm(new SubFirmType("Type1"));
-        var subFirm2 = new SubFirm(new SubFirmType("Type2"));
+        var subFirm1 = new SubFirm(new SbFirmType("Type1"));
+        var subFirm2 = new SubFirm(new SbFirmType("Type2"));
         firm.AddSbFirm(subFirm1);
         firm.AddSbFirm(subFirm2);
         subFirm1.AddCont(new Contact { Descr = "Contact1" });
@@ -80,7 +80,7 @@ public class FirmTests
     public void AddContactToMainOffice_ShouldAddContactToMainOfficeIfExists()
     {
         var firm = new Firm(new string[] { "Field1", "Field2" });
-        var subFirm = new SubFirm(new SubFirmType("MainType", true));
+        var subFirm = new SubFirm(new SbFirmType("MainType", true));
         firm.AddSbFirm(subFirm);
         var contact = new Contact { Descr = "Main Office Contact" };
 

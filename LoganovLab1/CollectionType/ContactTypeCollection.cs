@@ -4,27 +4,27 @@ using System.Collections;
 namespace LoganovLab1.CollectionType
 {
     // Коллекция типов контактов
-    public class ContTypeCol: IEnumerable<ContType>
+    public class ContactTypeCollection: IEnumerable<ContactType>
     {
-        private List<ContType> _types = new List<ContType>();
+        private List<ContactType> _types = new List<ContactType>();
 
-        public void AddType(ContType type)
+        public void AddType(ContactType type)
         {
             if (type != null && !_types.Any(t => t.Name == type.Name))
                 _types.Add(type);
         }
 
-        public ContType[] ToArray()
+        public ContactType[] ToArray()
         {
             return _types.ToArray();
         }
 
-        public ContType GetTypeByName(string name)
+        public ContactType GetTypeByName(string name)
         {
             return _types.FirstOrDefault(t => t.Name == name);
         }
 
-        public IEnumerator<ContType> GetEnumerator()
+        public IEnumerator<ContactType> GetEnumerator()
         {
             return _types.GetEnumerator();
         }

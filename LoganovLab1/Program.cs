@@ -10,13 +10,13 @@ namespace LoganovLab1
         static void Main(string[] args)
         {
             // Инициализация типов подразделений
-            FirmFactory.Instance.SbFirmTypes.AddType(new SbFirmType("Основной офис", true));
-            FirmFactory.Instance.SbFirmTypes.AddType(new SbFirmType("Отдел снабжения"));
-            FirmFactory.Instance.SbFirmTypes.AddType(new SbFirmType("Отдел маркетинга"));
+            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Основной офис", true));
+            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Отдел снабжения"));
+            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Отдел маркетинга"));
 
             // Инициализация типов контактов
-            FirmFactory.Instance.ContactTypes.AddType(new ContType("Письмо послали", "Информационное письмо"));
-            FirmFactory.Instance.ContactTypes.AddType(new ContType("Коммерческое предложение", "Предложение о сотрудничестве"));
+            FirmFactory.Instance.ContactTypes.AddType(new ContactType("Письмо послали", "Информационное письмо"));
+            FirmFactory.Instance.ContactTypes.AddType(new ContactType("Коммерческое предложение", "Предложение о сотрудничестве"));
 
             // Настройка пользовательских полей для каждой фирмы
             FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "MarketShare", "Field3", "Field4", "Field5" });
@@ -59,7 +59,7 @@ namespace LoganovLab1
             firm3.SetUserFieldValue("PartnershipStatus", "В разработке");
 
             // Добавим подразделения для фирм
-            var sbTypeSupply = FirmFactory.Instance.SbFirmTypes.GetByName("Отдел снабжения");
+            var sbTypeSupply = FirmFactory.Instance.SubFirmTypes.GetByName("Отдел снабжения");
             if (sbTypeSupply != null)
             {
                 var supplyDep = new SubFirm(sbTypeSupply, "Снабжение");

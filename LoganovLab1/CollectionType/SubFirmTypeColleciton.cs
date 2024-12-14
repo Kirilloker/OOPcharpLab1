@@ -3,32 +3,32 @@
 namespace LoganovLab1.CollectionType
 {
     // Коллекция типов подразделений
-    public class SbFirmTypeCol : IEnumerable<SbFirmType>
+    public class SubFirmTypeColleciton : IEnumerable<SubFirmType>
     {
-        private List<SbFirmType> _types = new List<SbFirmType>();
+        private List<SubFirmType> _types = new List<SubFirmType>();
 
-        public void AddType(SbFirmType type)
+        public void AddType(SubFirmType type)
         {
             if (type != null && !_types.Any(t => t.Name == type.Name))
                 _types.Add(type);
         }
 
-        public SbFirmType[] ToArray()
+        public SubFirmType[] ToArray()
         {
             return _types.ToArray();
         }
 
-        public SbFirmType GetMainOfficeType()
+        public SubFirmType GetMainOfficeType()
         {
             return _types.FirstOrDefault(t => t.IsMainOffice);
         }
 
-        public SbFirmType GetByName(string name)
+        public SubFirmType GetByName(string name)
         {
             return _types.FirstOrDefault(t => t.Name == name);
         }
 
-        public IEnumerator<SbFirmType> GetEnumerator()
+        public IEnumerator<SubFirmType> GetEnumerator()
         {
             return _types.GetEnumerator(); 
         }

@@ -20,7 +20,7 @@ namespace LoganovLab1.Tests
         public void AddSubFirm_ShouldAddSubFirmToList()
         {
             // Arrange
-            var subFirm = new SubFirm(new SbFirmType("Отдел продаж"));
+            var subFirm = new SubFirm(new SubFirmType("Отдел продаж"));
 
             // Act
             _firm.AddSubFirm(subFirm);
@@ -46,9 +46,9 @@ namespace LoganovLab1.Tests
         public void AddSubFirm_ShouldAddMultipleSubFirms()
         {
             // Arrange
-            var subFirm1 = new SubFirm(new SbFirmType("Отдел продаж"));
-            var subFirm2 = new SubFirm(new SbFirmType("Отдел маркетинга"));
-            var subFirm3 = new SubFirm(new SbFirmType("Отдел логистики"));
+            var subFirm1 = new SubFirm(new SubFirmType("Отдел продаж"));
+            var subFirm2 = new SubFirm(new SubFirmType("Отдел маркетинга"));
+            var subFirm3 = new SubFirm(new SubFirmType("Отдел логистики"));
 
             // Act
             _firm.AddSubFirm(subFirm1);
@@ -67,7 +67,7 @@ namespace LoganovLab1.Tests
         public void AddSubFirm_ShouldNotAddDuplicateSubFirms()
         {
             // Arrange
-            var subFirm1 = new SubFirm(new SbFirmType("Отдел продаж"));
+            var subFirm1 = new SubFirm(new SubFirmType("Отдел продаж"));
             var subFirm2 = subFirm1; // Дубликат по ссылке
 
             // Act
@@ -85,7 +85,7 @@ namespace LoganovLab1.Tests
             // Act
             for (int i = 0; i < 1000; i++)
             {
-                _firm.AddSubFirm(new SubFirm(new SbFirmType($"Подразделение {i}")));
+                _firm.AddSubFirm(new SubFirm(new SubFirmType($"Подразделение {i}")));
             }
 
             // Assert

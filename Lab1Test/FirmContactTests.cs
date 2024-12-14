@@ -21,12 +21,12 @@ namespace Lab1Test
         public void AddContactToMainOffice_ShouldAddContact_WhenMainOfficeExists()
         {
             // Arrange
-            var mainOfficeType = new SbFirmType("Main Office", isMainOffice: true);
+            var mainOfficeType = new SubFirmType("Main Office", isMainOffice: true);
             var mainOffice = new SubFirm(mainOfficeType);
             _firm.AddSubFirm(mainOffice);
             var contact = new Contact
             {
-                ContactType = new ContType("Email"),
+                ContactType = new ContactType("Email"),
                 Date = DateTime.Now,
                 Description = "Primary contact"
             };
@@ -46,7 +46,7 @@ namespace Lab1Test
             // Arrange
             var contact = new Contact
             {
-                ContactType = new ContType("Phone"),
+                ContactType = new ContactType("Phone"),
                 Date = DateTime.Now,
                 Description = "Backup contact"
             };
@@ -63,7 +63,7 @@ namespace Lab1Test
         public void AddContactToMainOffice_ShouldIgnoreNullContact()
         {
             // Arrange
-            var mainOfficeType = new SbFirmType("Main Office", isMainOffice: true);
+            var mainOfficeType = new SubFirmType("Main Office", isMainOffice: true);
             var mainOffice = new SubFirm(mainOfficeType);
             _firm.AddSubFirm(mainOffice);
 
@@ -79,21 +79,21 @@ namespace Lab1Test
         public void GetAllContacts_ShouldReturnContactsFromAllSubFirms()
         {
             // Arrange
-            var subFirm1 = new SubFirm(new SbFirmType("Sales"));
-            var subFirm2 = new SubFirm(new SbFirmType("Support"));
+            var subFirm1 = new SubFirm(new SubFirmType("Sales"));
+            var subFirm2 = new SubFirm(new SubFirmType("Support"));
             _firm.AddSubFirm(subFirm1);
             _firm.AddSubFirm(subFirm2);
 
             var contact1 = new Contact
             {
-                ContactType = new ContType("Email"),
+                ContactType = new ContactType("Email"),
                 Date = DateTime.Now,
                 Description = "Sales contact"
             };
 
             var contact2 = new Contact
             {
-                ContactType = new ContType("Phone"),
+                ContactType = new ContactType("Phone"),
                 Date = DateTime.Now,
                 Description = "Support contact"
             };
@@ -124,13 +124,13 @@ namespace Lab1Test
         public void AddDuplicateContact_ShouldAllowDuplicates()
         {
             // Arrange
-            var mainOfficeType = new SbFirmType("Main Office", isMainOffice: true);
+            var mainOfficeType = new SubFirmType("Main Office", isMainOffice: true);
             var mainOffice = new SubFirm(mainOfficeType);
             _firm.AddSubFirm(mainOffice);
 
             var contact = new Contact
             {
-                ContactType = new ContType("Email"),
+                ContactType = new ContactType("Email"),
                 Date = DateTime.Now,
                 Description = "Duplicate contact"
             };

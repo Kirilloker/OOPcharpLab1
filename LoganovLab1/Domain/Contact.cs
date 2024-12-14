@@ -6,7 +6,7 @@ namespace LoganovLab1.Domain
     // Контакт
     public class Contact
     {
-        public ContType ContactType { get; set; }
+        public ContactType ContactType { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
 

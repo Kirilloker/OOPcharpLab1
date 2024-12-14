@@ -3,16 +3,16 @@ using LoganovLab1Artem.SubFirmSpace;
 
 namespace LoganovLab1Artem.FirmSpace
 {
-    public class FirmList
+    public class List
     {
         private List<Firm> _firms;
 
-        public FirmList()
+        public List()
         {
             _firms = new List<Firm>();
         }
 
-        public FirmList(IEnumerable<Firm> firms)
+        public List(IEnumerable<Firm> firms)
         {
             _firms = new List<Firm>();
             if (firms != null)
@@ -32,7 +32,7 @@ namespace LoganovLab1Artem.FirmSpace
             }
         }
 
-        public FirmList FilterByRegion(string region)
+        public List FilterByRegion(string region)
         {
             List<Firm> filtered = new List<Firm>();
             foreach (Firm firm in _firms)
@@ -42,10 +42,10 @@ namespace LoganovLab1Artem.FirmSpace
                     filtered.Add(firm);
                 }
             }
-            return new FirmList(filtered);
+            return new List(filtered);
         }
 
-        public FirmList FilterBySubFirmType(string subFirmTypeName)
+        public List FilterBySubFirmType(string subFirmTypeName)
         {
             List<Firm> filtered = new List<Firm>();
             foreach (Firm firm in _firms)
@@ -59,10 +59,10 @@ namespace LoganovLab1Artem.FirmSpace
                     }
                 }
             }
-            return new FirmList(filtered);
+            return new List(filtered);
         }
 
-        public FirmList FilterByContactType(ContType contactType, DateTime? start = null, DateTime? end = null)
+        public List FilterByContactType(ContType contactType, DateTime? start = null, DateTime? end = null)
         {
             List<Firm> filtered = new List<Firm>();
             foreach (Firm firm in _firms)
@@ -78,7 +78,7 @@ namespace LoganovLab1Artem.FirmSpace
                     }
                 }
             }
-            return new FirmList(filtered);
+            return new List(filtered);
         }
 
         public void AddContactToAllFirms(Contact prototype)

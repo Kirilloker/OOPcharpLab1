@@ -1,11 +1,11 @@
 ﻿namespace LoganovLab1.Type
 {
     // Тип контакта
-    public class ContType
+    public class ContactType
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public ContType(string name, string description = "")
+        public ContactType(string name, string description = "")
         {
             Name = name;
             Description = description;
@@ -18,7 +18,7 @@
 
         public void DeepPrint()
         {
-            Console.WriteLine("    ContType:");
+            Console.WriteLine("    ContactType:");
             Console.WriteLine($"      Name: {Name}");
             Console.WriteLine($"      Description: {Description}");
         }

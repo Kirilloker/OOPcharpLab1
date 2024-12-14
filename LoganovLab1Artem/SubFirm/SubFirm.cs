@@ -11,7 +11,7 @@ namespace LoganovLab1Artem.SubFirmSpace
         private string _name;
         private string _ofcBossName;
         private string _tel;
-        private SubFirmType _tpy;
+        private SbFirmType _tpy;
 
         public string BossName
         {
@@ -41,7 +41,7 @@ namespace LoganovLab1Artem.SubFirmSpace
             set => _ofcBossName = value;
         }
 
-        public SubFirmType SbFirmTpy
+        public SbFirmType SbFirmTpy
         {
             get => _tpy;
             set => _tpy = value;
@@ -53,7 +53,7 @@ namespace LoganovLab1Artem.SubFirmSpace
             set => _tel = value;
         }
 
-        public SubFirm(SubFirmType type, string name = "")
+        public SubFirm(SbFirmType type, string name = "")
         {
             _tpy = type;
             _name = string.IsNullOrEmpty(name) ? type?.Name : name;
@@ -73,7 +73,7 @@ namespace LoganovLab1Artem.SubFirmSpace
             return _conts.Contains(contact);
         }
 
-        public bool IsYourType(SubFirmType type)
+        public bool IsYourType(SbFirmType type)
         {
             return _tpy == type;
         }

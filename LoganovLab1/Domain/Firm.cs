@@ -105,13 +105,6 @@
             {
                 subFirm.DeepPrint();
             }
-
-            //Console.WriteLine("  Contacts:");
-            //foreach (var contact in GetAllContacts())
-            //{
-            //    contact.DeepPrint();
-            //}
         }
-
     }
 }

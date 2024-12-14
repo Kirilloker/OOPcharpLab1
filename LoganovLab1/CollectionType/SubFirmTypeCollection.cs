@@ -3,7 +3,7 @@
 namespace LoganovLab1.CollectionType
 {
     // Коллекция типов подразделений
-    public class SubFirmTypeColleciton : IEnumerable<SubFirmType>
+    public class SubFirmTypeCollection : IEnumerable<SubFirmType>
     {
         private List<SubFirmType> _types = new List<SubFirmType>();
 

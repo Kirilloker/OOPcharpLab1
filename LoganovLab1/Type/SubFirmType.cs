@@ -14,7 +14,7 @@
 
         public override string ToString()
         {
-            return Name + (IsMainOffice ? " (Основной офис)" : "");
+            return Name + (IsMainOffice ? " (IsMainOffice)" : "");
         }
     }
 }

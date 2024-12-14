@@ -2,7 +2,7 @@
 using LoganovLab1.Domain;
 using LoganovLab1.Type;
 
-namespace LoganovLab1.Tests
+namespace Lab1Test
 {
     [TestFixture]
     public class FirmTests
@@ -12,7 +12,6 @@ namespace LoganovLab1.Tests
         [SetUp]
         public void Setup()
         {
-            // Инициализация перед каждым тестом — создаём объект Firm с набором пользовательских полей
             _firm = new Firm(new string[] { "Field1", "Field2", "Field3", "Field4", "Field5" });
         }
 
@@ -27,8 +26,8 @@ namespace LoganovLab1.Tests
 
             // Assert
             var allSubFirms = _firm.GetAllSubFirms();
-            Assert.That(allSubFirms.Length, Is.EqualTo(1), "Ожидается, что будет добавлено одно подразделение.");
-            Assert.That(allSubFirms[0].Name, Is.EqualTo("Отдел продаж"), "Ожидается, что имя подразделения будет 'Отдел продаж'.");
+            Assert.That(allSubFirms.Length, Is.EqualTo(1));
+            Assert.That(allSubFirms[0].Name, Is.EqualTo("Отдел продаж"));
         }
 
         [Test]
@@ -39,7 +38,7 @@ namespace LoganovLab1.Tests
 
             // Assert
             var allSubFirms = _firm.GetAllSubFirms();
-            Assert.That(allSubFirms.Length, Is.EqualTo(0), "Ожидается, что null-подразделение не будет добавлено.");
+            Assert.That(allSubFirms.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -57,10 +56,10 @@ namespace LoganovLab1.Tests
 
             // Assert
             var allSubFirms = _firm.GetAllSubFirms();
-            Assert.That(allSubFirms.Length, Is.EqualTo(3), "Ожидается, что будут добавлены три подразделения.");
-            Assert.That(allSubFirms[0].Name, Is.EqualTo("Отдел продаж"), "Первое подразделение должно называться 'Отдел продаж'.");
-            Assert.That(allSubFirms[1].Name, Is.EqualTo("Отдел маркетинга"), "Второе подразделение должно называться 'Отдел маркетинга'.");
-            Assert.That(allSubFirms[2].Name, Is.EqualTo("Отдел логистики"), "Третье подразделение должно называться 'Отдел логистики'.");
+            Assert.That(allSubFirms.Length, Is.EqualTo(3));
+            Assert.That(allSubFirms[0].Name, Is.EqualTo("Отдел продаж"));
+            Assert.That(allSubFirms[1].Name, Is.EqualTo("Отдел маркетинга"));
+            Assert.That(allSubFirms[2].Name, Is.EqualTo("Отдел логистики"));
         }
 
         [Test]
@@ -76,7 +75,7 @@ namespace LoganovLab1.Tests
 
             // Assert
             var allSubFirms = _firm.GetAllSubFirms();
-            Assert.That(allSubFirms.Length, Is.EqualTo(2), "Ожидается, что дубликат по ссылке будет добавлен, так как это разные объекты.");
+            Assert.That(allSubFirms.Length, Is.EqualTo(2));
         }
 
         [Test]
@@ -90,7 +89,7 @@ namespace LoganovLab1.Tests
 
             // Assert
             var allSubFirms = _firm.GetAllSubFirms();
-            Assert.That(allSubFirms.Length, Is.EqualTo(1000), "Ожидается, что будет добавлено 1000 подразделений.");
+            Assert.That(allSubFirms.Length, Is.EqualTo(1000));
         }
     }
 }

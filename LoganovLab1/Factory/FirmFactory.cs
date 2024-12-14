@@ -17,12 +17,12 @@ namespace LoganovLab1.Factory
         }
 
         private string[] _userFieldNames = new string[] { "Field1", "Field2", "Field3", "Field4", "Field5" };
-        public SubFirmTypeColleciton SubFirmTypes { get; private set; }
+        public SubFirmTypeCollection SubFirmTypes { get; private set; }
         public ContactTypeCollection ContactTypes { get; private set; }
 
         private FirmFactory()
         {
-            SubFirmTypes = new SubFirmTypeColleciton();
+            SubFirmTypes = new SubFirmTypeCollection();
             ContactTypes = new ContactTypeCollection();
         }
 

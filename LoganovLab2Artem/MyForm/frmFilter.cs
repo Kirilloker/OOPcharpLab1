@@ -17,8 +17,6 @@ namespace LoganovLab2Artem.MyForm
         private Button btnApply;
         private Button btnCancel;
 
-        // Для примера создадим простую логику:
-        // На форме будет список полей и для каждого поля - текстбокс для значения, комбо бокс для операции
         private List<Field> _fields;
         private List<ComboBox> _combos;
         private List<TextBox> _texts;
@@ -67,7 +65,6 @@ namespace LoganovLab2Artem.MyForm
 
         private void BtnApply_Click(object sender, EventArgs e)
         {
-            // Собираем правила
             for (int i = 0; i < _fields.Count; i++)
             {
                 var opStr = _combos[i].SelectedItem as string;

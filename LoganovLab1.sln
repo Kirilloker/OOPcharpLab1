@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoganovLab1Artem", "Loganov
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab1Test", "Lab1Test\Lab1Test.csproj", "{04161110-5DC5-4DFA-9000-87067A1E44D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab1TestArtem", "Lab1TestArtem\Lab1TestArtem.csproj", "{4E041828-5C7A-4B8E-88C4-5FE54D865ED9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOPLab1Test", "Lab1TestArtem\OOPLab1Test.csproj", "{4E041828-5C7A-4B8E-88C4-5FE54D865ED9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoganovLab2", "LoganovLab2\LoganovLab2.csproj", "{709BE467-BEC6-4EC0-AE71-6FFD3B72981C}"
 EndProject

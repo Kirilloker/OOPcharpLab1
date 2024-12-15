@@ -31,5 +31,15 @@ namespace LoganovLab2Artem.FirmSpace
         {
             _firmVw = vw;
         }
+
+        public string GetFieldName(int index)
+        {
+            var fields = _firmVw.GetFields();
+            if (index >= 0 && index < fields.Length)
+            {
+                return fields[index].GetType().Name.Replace("Field", "");
+            }
+            return null;
+        }
     }
 }

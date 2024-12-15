@@ -43,8 +43,9 @@ namespace LoganovLab2Artem.MyForm
             {
                 var lbl = new Label { Text = field.GetType().Name, Location = new Point(10, y), AutoSize = true };
                 panel.Controls.Add(lbl);
+
                 var combo = new ComboBox { Location = new Point(150, y), Width = 100, DropDownStyle = ComboBoxStyle.DropDownList };
-                combo.Items.AddRange(Enum.GetNames(typeof(LogExpEnum)));
+                combo.Items.AddRange(new string[] { ">", "<", "=", "!=", ">=", "<=", "содержит", "не содежит" }); // Символы вместо Enum значений
                 panel.Controls.Add(combo);
                 _combos.Add(combo);
 
@@ -73,14 +74,24 @@ namespace LoganovLab2Artem.MyForm
                 var valStr = _texts[i].Text;
                 if (!string.IsNullOrEmpty(opStr))
                 {
-                    if (Enum.TryParse<LogExpEnum>(opStr, out var op))
+                    LogExpEnum op = opStr switch
                     {
-                        var rule = _fields[i].CreateRule();
-                        var baseExp = LogExpFactory.CreateExp(op, valStr);
-                        var fullExp = rule.CreateFieldExpr(baseExp);
-                        rule.SetExpression(fullExp);
-                        _filterContr.AddRule(rule);
-                    }
+                        ">" => LogExpEnum.GT,
+                        "<" => LogExpEnum.LT,
+                        "=" => LogExpEnum.EQ,
+                        "!=" => LogExpEnum.NoEQ,
+                        ">=" => LogExpEnum.GE,
+                        "<=" => LogExpEnum.LE,
+                        "содержит" => LogExpEnum.Contains,
+                        "не содержит" => LogExpEnum.NoContains,
+                        _ => throw new InvalidOperationException("Неизвестный оператор")
+                    };
+
+                    var rule = _fields[i].CreateRule();
+                    var baseExp = LogExpFactory.CreateExp(op, valStr);
+                    var fullExp = rule.CreateFieldExpr(baseExp);
+                    rule.SetExpression(fullExp);
+                    _filterContr.AddRule(rule);
                 }
             }
 

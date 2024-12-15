@@ -13,6 +13,8 @@ namespace LoganovLab2
         private Button _btnFilter;
         private Button _btnAddFirm;
         private Button _btnEditFirm;
+        private Button _btnEditContacts;
+        private Button _btnSelectFields;
 
         public FormMain(MainController mainContr)
         {
@@ -52,6 +54,16 @@ namespace LoganovLab2
             _btnEditFirm.Dock = DockStyle.Bottom;
             _btnEditFirm.Click += BtnEditFirm_Click;
             this.Controls.Add(_btnEditFirm);
+
+            _btnSelectFields = new Button();
+            _btnSelectFields.Text = "Выбрать поля";
+            _btnSelectFields.Dock = DockStyle.Bottom;
+            _btnSelectFields.Click += BtnSelectFields_Click;
+            this.Controls.Add(_btnSelectFields);
+
+            _btnEditContacts = new Button { Text = "Добавление и редактирование контактов", Dock = DockStyle.Bottom };
+            _btnEditContacts.Click += BtnEditContacts_Click;
+            this.Controls.Add(_btnEditContacts);
         }
 
         private void BtnFilter_Click(object sender, EventArgs e)
@@ -99,6 +111,52 @@ namespace LoganovLab2
                 UpdateFirmList();
             }
         }
+
+        private void BtnSelectFields_Click(object sender, EventArgs e)
+        {
+            var allFields = _mainContr.FirmManager.FirmView.GetFields();
+            var currentFields = _mainContr.FirmManager.FirmView.GetFields();
+
+            var formSelectFields = new FormSelectFields(allFields, currentFields);
+
+            if (formSelectFields.ShowDialog() == DialogResult.OK)
+            {
+                // Обновляем список полей в FirmView
+                var newFields = formSelectFields.SelectedFields;
+                _mainContr.FirmManager.FirmView = new FirmView();
+
+                foreach (var field in newFields)
+                {
+                    _mainContr.FirmManager.FirmView.AddField(field);
+                }
+
+                UpdateFirmList(); // Обновляем таблицу
+            }
+        }
+
+
+        private void BtnEditContacts_Click(object sender, EventArgs e)
+        {
+            var firms = _mainContr.FirmManager.GetAllFirms();
+            if (firms.Length > 0)
+            {
+                var mainOffice = firms[0].GetMainOffice(); // Получаем основное подразделение первой фирмы
+                if (mainOffice != null)
+                {
+                    var contactForm = new FormEditContacts(mainOffice);
+                    contactForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Основное подразделение не найдено.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Фирма не найдена.");
+            }
+        }
+
 
         private void BtnEditFirm_Click(object sender, EventArgs e)
         {

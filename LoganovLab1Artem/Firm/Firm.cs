@@ -179,6 +179,11 @@ namespace LoganovLab1Artem.FirmSpace
             return _usrFields.ContainsKey(fieldName) ? _usrFields[fieldName] : null;
         }
 
+        public string[] GetFieldNames()
+        {
+            return _usrFields.Keys.ToArray();
+        }
+
         public override string ToString()
         {
             return $"{Name}, {Country}, {Region}, {Town}, {Street}";

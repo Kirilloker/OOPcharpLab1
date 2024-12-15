@@ -1,4 +1,6 @@
-﻿using LoganovLab2.Firms;
+﻿using LoganovLab1.Factory;
+using LoganovLab2.Controller;
+using LoganovLab2.Firms;
 using LoganovLab2.Rules;
 using LoganovLab2.View;
 
@@ -9,6 +11,8 @@ namespace LoganovLab2
         private MainController _mainContr;
         private ListView _listView;
         private Button _btnFilter;
+        private Button _btnAddFirm;
+        private Button _btnEditFirm;
 
         public FormMain(MainController mainContr)
         {
@@ -36,6 +40,18 @@ namespace LoganovLab2
             _btnFilter.Dock = DockStyle.Bottom;
             _btnFilter.Click += BtnFilter_Click;
             this.Controls.Add(_btnFilter);
+
+            _btnAddFirm = new Button();
+            _btnAddFirm.Text = "Добавить фирму";
+            _btnAddFirm.Dock = DockStyle.Bottom;
+            _btnAddFirm.Click += BtnAddFirm_Click;
+            this.Controls.Add(_btnAddFirm);
+
+            _btnEditFirm = new Button();
+            _btnEditFirm.Text = "Редактировать фирму";
+            _btnEditFirm.Dock = DockStyle.Bottom;
+            _btnEditFirm.Click += BtnEditFirm_Click;
+            this.Controls.Add(_btnEditFirm);
         }
 
         private void BtnFilter_Click(object sender, EventArgs e)
@@ -72,82 +88,36 @@ namespace LoganovLab2
                 _listView.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
-    }
 
-    public class MainController
-    {
-        private FirmManager _firmManager;
-        private FirmManager _originalFirmManager;
-
-        public MainController(FirmManager initialManager)
+        private void BtnAddFirm_Click(object sender, EventArgs e)
         {
-            _firmManager = initialManager;
-            _originalFirmManager = new FirmManager(initialManager.FirmView, initialManager.GetAllFirms()); 
-        }
-
-        public FirmManager FirmManager
-        {
-            get { return _firmManager; }
-        }
-
-        public void StartFilterProcess()
-        {
-            var filterController = new FilterController(_originalFirmManager); 
-
-            if (filterController.ShowFilterForm() == DialogResult.OK)
+            var newFirm = FirmFactory.Instance.CreateFirm(); // Создание новой фирмы
+            var editForm = new FormEditFirm(newFirm); // Форма редактирования
+            if (editForm.ShowDialog() == DialogResult.OK)
             {
-                var filteredMngr = filterController.GetFilteredFirmManager();
+                _mainContr.FirmManager.AddFirm(newFirm);
+                UpdateFirmList();
+            }
+        }
 
-                if (filteredMngr != null)
+        private void BtnEditFirm_Click(object sender, EventArgs e)
+        {
+            if (_listView.SelectedItems.Count > 0)
+            {
+                var selectedIndex = _listView.SelectedItems[0].Index;
+                var selectedFirm = _mainContr.FirmManager.GetAllFirms()[selectedIndex];
+
+                var editForm = new FormEditFirm(selectedFirm); // Форма редактирования
+                if (editForm.ShowDialog() == DialogResult.OK)
                 {
-                    _firmManager = filteredMngr; 
+                    UpdateFirmList();
                 }
+            }
+            else
+            {
+                MessageBox.Show("Выберите фирму для редактирования.");
             }
         }
     }
 
-    public class FilterController
-    {
-        private FirmManager _originalFirmManager;
-        private FirmManager _filteredFirmManager;
-        private List<FilterRule> _rules = new List<FilterRule>();
-
-        public FilterController(FirmManager firmManager)
-        {
-            _originalFirmManager = new FirmManager(firmManager.FirmView, firmManager.GetAllFirms()); 
-        }
-
-        public DialogResult ShowFilterForm()
-        {
-            using (var form = new FormFilter(_originalFirmManager.FirmView))
-            {
-                var result = form.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    _rules = form.GetSelectedRules();
-                    ApplyFilter();
-                }
-
-                return result;
-            }
-        }
-
-        private void ApplyFilter()
-        {
-            var allFirms = _originalFirmManager.GetAllFirms(); 
-
-            var filtered = allFirms.Where(firm =>
-            {
-                return _rules.All(r => r.FirmRespond(firm));
-            }).ToArray();
-
-            _filteredFirmManager = new FirmManager(_originalFirmManager.FirmView, filtered);
-        }
-
-        public FirmManager GetFilteredFirmManager()
-        {
-            return _filteredFirmManager;
-        }
-    }
 }

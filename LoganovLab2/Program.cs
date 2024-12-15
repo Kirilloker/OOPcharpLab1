@@ -1,6 +1,7 @@
 using LoganovLab1.Domain;
 using LoganovLab1.Factory;
 using LoganovLab1.Type;
+using LoganovLab2.Controller;
 using LoganovLab2.Firms;
 
 namespace LoganovLab2

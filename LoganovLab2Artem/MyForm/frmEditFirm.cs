@@ -27,7 +27,7 @@ namespace LoganovLab2Artem.MyForm
 
         private void InitializeComponent()
         {
-            this.Text = "Редактировать фирму";
+            this.Text = "Добавить фирму";
             this.Width = 500;
             this.Height = 600;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;

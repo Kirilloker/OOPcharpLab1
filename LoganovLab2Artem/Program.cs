@@ -56,11 +56,8 @@ namespace LoganovLab2Artem
 
             var firmVw = new FirmVw();
             firmVw.AddField(new NameField());
-            firmVw.AddField(new CountryField());
             firmVw.AddField(new RegionField());
             firmVw.AddField(new TownField());
-            firmVw.AddField(new PostInxField());
-            firmVw.AddField(new WebField());
 
             var firmMngr = new FirmMngr(firmVw, firms);
 

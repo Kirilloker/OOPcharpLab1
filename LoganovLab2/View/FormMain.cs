@@ -15,6 +15,8 @@ namespace LoganovLab2
         private Button _btnEditFirm;
         private Button _btnEditContacts;
         private Button _btnSelectFields;
+        private TableLayoutPanel _mainLayout;
+        private FlowLayoutPanel _buttonPanel;
 
         public FormMain(MainController mainContr)
         {
@@ -29,42 +31,57 @@ namespace LoganovLab2
             this.Width = 1000;
             this.Height = 600;
 
-            _listView = new ListView();
-            _listView.Dock = DockStyle.Top;
-            _listView.View = System.Windows.Forms.View.Details;
-            _listView.FullRowSelect = true;
-            _listView.GridLines = true;
-            _listView.Height = 500;
-            this.Controls.Add(_listView);
+            // Создаем ToolStrip как навигационную панель (всегда сверху)
+            var toolStrip = new ToolStrip
+            {
+                Dock = DockStyle.Top,
+                GripStyle = ToolStripGripStyle.Hidden,
+                BackColor = SystemColors.ControlLight
+            };
 
-            _btnFilter = new Button();
-            _btnFilter.Text = "Фильтр";
-            _btnFilter.Dock = DockStyle.Bottom;
-            _btnFilter.Click += BtnFilter_Click;
-            this.Controls.Add(_btnFilter);
+            var btnFilter = new ToolStripButton("Фильтр", null, BtnFilter_Click) { DisplayStyle = ToolStripItemDisplayStyle.Text };
+            var btnAddFirm = new ToolStripButton("Добавить фирму", null, BtnAddFirm_Click) { DisplayStyle = ToolStripItemDisplayStyle.Text };
+            var btnEditFirm = new ToolStripButton("Редактировать фирму", null, BtnEditFirm_Click) { DisplayStyle = ToolStripItemDisplayStyle.Text };
+            var btnSelectFields = new ToolStripButton("Выбрать поля", null, BtnSelectFields_Click) { DisplayStyle = ToolStripItemDisplayStyle.Text };
+            var btnEditContacts = new ToolStripButton("Редактировать контакты", null, BtnEditContacts_Click) { DisplayStyle = ToolStripItemDisplayStyle.Text };
 
-            _btnAddFirm = new Button();
-            _btnAddFirm.Text = "Добавить фирму";
-            _btnAddFirm.Dock = DockStyle.Bottom;
-            _btnAddFirm.Click += BtnAddFirm_Click;
-            this.Controls.Add(_btnAddFirm);
+            toolStrip.Items.AddRange(new ToolStripItem[] { btnFilter, btnAddFirm, btnEditFirm, btnSelectFields, btnEditContacts });
+            this.Controls.Add(toolStrip);
 
-            _btnEditFirm = new Button();
-            _btnEditFirm.Text = "Редактировать фирму";
-            _btnEditFirm.Dock = DockStyle.Bottom;
-            _btnEditFirm.Click += BtnEditFirm_Click;
-            this.Controls.Add(_btnEditFirm);
+            // Главная панель для ListView с отступом
+            var mainPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Padding(0, 50, 0, 0) // Отступ сверху для ListView
+            };
 
-            _btnSelectFields = new Button();
-            _btnSelectFields.Text = "Выбрать поля";
-            _btnSelectFields.Dock = DockStyle.Bottom;
-            _btnSelectFields.Click += BtnSelectFields_Click;
-            this.Controls.Add(_btnSelectFields);
+            // ListView для отображения данных
+            _listView = new ListView
+            {
+                View = System.Windows.Forms.View.Details,
+                FullRowSelect = true,
+                GridLines = true,
+                Dock = DockStyle.Fill
+            };
 
-            _btnEditContacts = new Button { Text = "Добавление и редактирование контактов", Dock = DockStyle.Bottom };
-            _btnEditContacts.Click += BtnEditContacts_Click;
-            this.Controls.Add(_btnEditContacts);
+            mainPanel.Controls.Add(_listView);
+            this.Controls.Add(mainPanel);
         }
+
+        private Button CreateButton(string text, EventHandler clickHandler)
+        {
+            var button = new Button
+            {
+                Text = text,
+                AutoSize = true,
+                Margin = new Padding(10),
+                Padding = new Padding(10)
+            };
+
+            button.Click += clickHandler; 
+            return button;
+        }
+
 
         private void BtnFilter_Click(object sender, EventArgs e)
         {
@@ -103,8 +120,8 @@ namespace LoganovLab2
 
         private void BtnAddFirm_Click(object sender, EventArgs e)
         {
-            var newFirm = FirmFactory.Instance.CreateFirm(); // Создание новой фирмы
-            var editForm = new FormEditFirm(newFirm); // Форма редактирования
+            var newFirm = FirmFactory.Instance.CreateFirm();
+            var editForm = new FormEditFirm(newFirm);
             if (editForm.ShowDialog() == DialogResult.OK)
             {
                 _mainContr.FirmManager.AddFirm(newFirm);
@@ -121,7 +138,6 @@ namespace LoganovLab2
 
             if (formSelectFields.ShowDialog() == DialogResult.OK)
             {
-                // Обновляем список полей в FirmView
                 var newFields = formSelectFields.SelectedFields;
                 _mainContr.FirmManager.FirmView = new FirmView();
 
@@ -130,17 +146,16 @@ namespace LoganovLab2
                     _mainContr.FirmManager.FirmView.AddField(field);
                 }
 
-                UpdateFirmList(); // Обновляем таблицу
+                UpdateFirmList();
             }
         }
-
 
         private void BtnEditContacts_Click(object sender, EventArgs e)
         {
             var firms = _mainContr.FirmManager.GetAllFirms();
             if (firms.Length > 0)
             {
-                var mainOffice = firms[0].GetMainOffice(); // Получаем основное подразделение первой фирмы
+                var mainOffice = firms[0].GetMainOffice();
                 if (mainOffice != null)
                 {
                     var contactForm = new FormEditContacts(mainOffice);
@@ -157,7 +172,6 @@ namespace LoganovLab2
             }
         }
 
-
         private void BtnEditFirm_Click(object sender, EventArgs e)
         {
             if (_listView.SelectedItems.Count > 0)
@@ -165,7 +179,7 @@ namespace LoganovLab2
                 var selectedIndex = _listView.SelectedItems[0].Index;
                 var selectedFirm = _mainContr.FirmManager.GetAllFirms()[selectedIndex];
 
-                var editForm = new FormEditFirm(selectedFirm); // Форма редактирования
+                var editForm = new FormEditFirm(selectedFirm);
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
                     UpdateFirmList();
@@ -177,5 +191,4 @@ namespace LoganovLab2
             }
         }
     }
-
 }

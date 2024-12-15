@@ -10,6 +10,10 @@ namespace LoganovLab2.Firms
         public override Field Clone() => new NameField();
         public override FilterRule CreateRule() => new NameRule(this);
         public override FieldDataType GetFieldDataType() => FieldDataType.String;
+        public override string ToString()
+        {
+            return "Name";
+        }
     }
 
     public class RegionField : Field
@@ -19,6 +23,11 @@ namespace LoganovLab2.Firms
         public override Field Clone() => new RegionField();
         public override FilterRule CreateRule() => new RegionRule(this);
         public override FieldDataType GetFieldDataType() => FieldDataType.String;
+
+        public override string ToString()
+        {
+            return "Region";
+        }
     }
 
     public class TownField : Field
@@ -28,6 +37,11 @@ namespace LoganovLab2.Firms
         public override Field Clone() => new TownField();
         public override FilterRule CreateRule() => new TownRule(this);
         public override FieldDataType GetFieldDataType() => FieldDataType.String;
+
+        public override string ToString()
+        {
+            return "Town";
+        }
     }
 
     public class PostInxField : Field

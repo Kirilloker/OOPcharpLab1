@@ -1,23 +1,23 @@
-﻿using LoganovLab2.Filtering;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using LoganovLab2.Filtering;
 using LoganovLab2.Firms;
 using LoganovLab2.Rules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoganovLab2.View
 {
     public class FormFilter : Form
     {
         private FirmView _firmVw;
-        private Button btnApply;
-        private Button btnCancel;
-        private Panel panelFields;
+        private Button _btnApply;
+        private Button _btnCancel;
+        private TableLayoutPanel _tableLayoutPanel;
+        private Panel _panelFields;
         private List<Field> _fields;
-        // Словари для хранения настроек фильтра по каждому полю
-        // Выберем для примера: CheckBox для "включить фильтр", TextBox для значения, ComboBox для типа условия
+        private ToolStrip _toolStrip;
         private Dictionary<Field, (CheckBox chk, TextBox txtValue, ComboBox cbCondition)> _fieldControls
             = new Dictionary<Field, (CheckBox, TextBox, ComboBox)>();
 
@@ -30,66 +30,109 @@ namespace LoganovLab2.View
 
         private void InitializeComponents()
         {
-            Text = "Настройка фильтра";
-            Width = 600;
-            Height = 400;
+            // Настройки формы
+            this.Text = "Настройка фильтра";
+            this.Width = 700;
+            this.Height = 500;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.BackColor = Color.White;
 
-            panelFields = new Panel();
-            panelFields.Dock = DockStyle.Top;
-            panelFields.AutoScroll = true;
-            panelFields.Height = 300;
-            Controls.Add(panelFields);
+            // ToolStrip для кнопок
+            _toolStrip = new ToolStrip
+            {
+                Dock = DockStyle.Top,
+                GripStyle = ToolStripGripStyle.Hidden,
+                BackColor = SystemColors.ControlLight
+            };
 
-            btnApply = new Button();
-            btnApply.Text = "Применить";
-            btnApply.Dock = DockStyle.Bottom;
-            btnApply.Click += BtnApply_Click;
-            Controls.Add(btnApply);
+            var btnApply = new ToolStripButton("Применить", null, BtnApply_Click)
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Font = new Font("Segoe UI", 10),
+                ForeColor = Color.Black
+            };
 
-            btnCancel = new Button();
-            btnCancel.Text = "Отмена";
-            btnCancel.Dock = DockStyle.Bottom;
-            btnCancel.Click += BtnCancel_Click;
-            Controls.Add(btnCancel);
+            var btnCancel = new ToolStripButton("Отмена", null, BtnCancel_Click)
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                Font = new Font("Segoe UI", 10),
+                ForeColor = Color.Black
+            };
 
-            int y = 10;
+            _toolStrip.Items.AddRange(new ToolStripItem[] { btnApply, btnCancel });
+            this.Controls.Add(_toolStrip);
+
+            // Panel для полей с прокруткой
+            _panelFields = new Panel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                Padding = new Padding(10),
+                BackColor = Color.White
+            };
+
+            // TableLayoutPanel для фильтров
+            _tableLayoutPanel = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                ColumnCount = 3,
+                AutoSize = true,
+                Padding = new Padding(5)
+            };
+            _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30));
+            _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40));
+            _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30));
+
+            // Заполнение TableLayoutPanel
+            int row = 0;
             foreach (var field in _fields)
             {
-                var chk = new CheckBox();
-                chk.Text = field.FieldName;
-                chk.Left = 10;
-                chk.Top = y;
+                var chk = new CheckBox
+                {
+                    Text = field.FieldName,
+                    Font = new Font("Segoe UI", 10),
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(5)
+                };
 
-                var txt = new TextBox();
-                txt.Left = 150;
-                txt.Top = y;
+                var txt = new TextBox
+                {
+                    Font = new Font("Segoe UI", 10),
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(5)
+                };
 
-                var cb = new ComboBox();
-                cb.Left = 300;
-                cb.Top = y;
-                cb.Width = 100;
-                cb.DropDownStyle = ComboBoxStyle.DropDownList;
+                var cb = new ComboBox
+                {
+                    Font = new Font("Segoe UI", 10),
+                    Dock = DockStyle.Fill,
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    Margin = new Padding(5)
+                };
 
-                cb.Items.AddRange(new string[] {
-        "Равно",
-        "Не равно",
-        "Содержит",
-        "Не содержит",
-        "Больше",
-        "Меньше",
-        "Больше или равно",
-        "Меньше или равно"
-    });
+                cb.Items.AddRange(new string[]
+                {
+                    "Равно",
+                    "Не равно",
+                    "Содержит",
+                    "Не содержит",
+                    "Больше",
+                    "Меньше",
+                    "Больше или равно",
+                    "Меньше или равно"
+                });
                 cb.SelectedIndex = 0;
 
-                panelFields.Controls.Add(chk);
-                panelFields.Controls.Add(txt);
-                panelFields.Controls.Add(cb);
+                _tableLayoutPanel.Controls.Add(chk, 0, row);
+                _tableLayoutPanel.Controls.Add(txt, 1, row);
+                _tableLayoutPanel.Controls.Add(cb, 2, row);
 
                 _fieldControls[field] = (chk, txt, cb);
-
-                y += 30;
+                row++;
             }
+
+            _panelFields.Controls.Add(_tableLayoutPanel);
+            this.Controls.Add(_panelFields);
         }
 
         private void BtnApply_Click(object sender, EventArgs e)
@@ -104,7 +147,6 @@ namespace LoganovLab2.View
             Close();
         }
 
-        // Словарь для сопоставления текстов и значений перечисления
         private static readonly Dictionary<string, LogExpEnum> TextToEnumMap = new Dictionary<string, LogExpEnum>
         {
             { "Равно", LogExpEnum.EQ },
@@ -130,42 +172,29 @@ namespace LoganovLab2.View
                     var rule = field.CreateRule();
                     var expName = cbCondition.SelectedItem.ToString();
 
-                    // Ищем значение перечисления в словаре
                     if (TextToEnumMap.TryGetValue(expName, out var expType))
                     {
                         var exp = LogExpFactory.Create(expType);
                         rule.SetExpression(exp);
 
-                        // В зависимости от типа поля преобразуем входящее значение
                         object condVal = txtValue.Text;
                         switch (field.GetFieldDataType())
                         {
                             case FieldDataType.Int:
                                 if (int.TryParse(txtValue.Text, out int iv)) condVal = iv;
-                                else condVal = null;
                                 break;
                             case FieldDataType.DateTime:
                                 if (DateTime.TryParse(txtValue.Text, out DateTime dv)) condVal = dv;
-                                else condVal = null;
-                                break;
-                            case FieldDataType.String:
-                            default:
                                 break;
                         }
 
                         rule.SetConditionValue(condVal);
                         result.Add(rule);
                     }
-                    else
-                    {
-                        // Логирование ошибки, если не удалось найти текст в словаре
-                        Console.WriteLine($"Не удалось найти соответствие для условия '{expName}'");
-                    }
                 }
             }
 
             return result;
         }
-
     }
 }

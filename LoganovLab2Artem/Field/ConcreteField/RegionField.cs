@@ -9,5 +9,7 @@ namespace LoganovLab2Artem.FieldSpace.ConcreteField
         public override string GetValue(Firm f) => f.Region;
         public override Field Clone() => new RegionField();
         public override Rule CreateRule() => new RegionRule(this);
+
+        
     }
 }

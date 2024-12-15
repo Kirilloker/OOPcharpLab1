@@ -69,8 +69,17 @@ namespace LoganovLab2.View
                 cb.Top = y;
                 cb.Width = 100;
                 cb.DropDownStyle = ComboBoxStyle.DropDownList;
-                // Наполним ComboBox значениями из LogExpEnum
-                cb.Items.AddRange(Enum.GetNames(typeof(LogExpEnum)));
+
+                cb.Items.AddRange(new string[] {
+        "Равно",
+        "Не равно",
+        "Содержит",
+        "Не содержит",
+        "Больше",
+        "Меньше",
+        "Больше или равно",
+        "Меньше или равно"
+    });
                 cb.SelectedIndex = 0;
 
                 panelFields.Controls.Add(chk);
@@ -95,6 +104,19 @@ namespace LoganovLab2.View
             Close();
         }
 
+        // Словарь для сопоставления текстов и значений перечисления
+        private static readonly Dictionary<string, LogExpEnum> TextToEnumMap = new Dictionary<string, LogExpEnum>
+        {
+            { "Равно", LogExpEnum.EQ },
+            { "Не равно", LogExpEnum.NoEQ },
+            { "Содержит", LogExpEnum.Contains },
+            { "Не содержит", LogExpEnum.NoContains },
+            { "Больше", LogExpEnum.GT },
+            { "Меньше", LogExpEnum.LT },
+            { "Больше или равно", LogExpEnum.GE },
+            { "Меньше или равно", LogExpEnum.LE }
+        };
+
         public List<FilterRule> GetSelectedRules()
         {
             var result = new List<FilterRule>();
@@ -107,14 +129,15 @@ namespace LoganovLab2.View
                 {
                     var rule = field.CreateRule();
                     var expName = cbCondition.SelectedItem.ToString();
-                    if (Enum.TryParse<LogExpEnum>(expName, out var expType))
+
+                    // Ищем значение перечисления в словаре
+                    if (TextToEnumMap.TryGetValue(expName, out var expType))
                     {
                         var exp = LogExpFactory.Create(expType);
                         rule.SetExpression(exp);
 
                         // В зависимости от типа поля преобразуем входящее значение
                         object condVal = txtValue.Text;
-                        // Для дат и чисел можно сделать попытку преобразования
                         switch (field.GetFieldDataType())
                         {
                             case FieldDataType.Int:
@@ -127,17 +150,22 @@ namespace LoganovLab2.View
                                 break;
                             case FieldDataType.String:
                             default:
-                                // Уже строка
                                 break;
                         }
 
                         rule.SetConditionValue(condVal);
                         result.Add(rule);
                     }
+                    else
+                    {
+                        // Логирование ошибки, если не удалось найти текст в словаре
+                        Console.WriteLine($"Не удалось найти соответствие для условия '{expName}'");
+                    }
                 }
             }
 
             return result;
         }
+
     }
 }

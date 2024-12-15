@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Новый профиль",
+    "Projects": [
+      {
+        "Path": "LoganovLab2\\LoganovLab2.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "LoganovLab2Artem\\LoganovLab2Artem.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

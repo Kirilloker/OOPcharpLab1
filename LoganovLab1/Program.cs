@@ -3,67 +3,64 @@ using LoganovLab1.Factory;
 using LoganovLab1.List;
 using LoganovLab1.Type;
 
-namespace LoganovLab1
+namespace SunTechCorp
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // Инициализация типов подразделений
-            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Основной офис", true));
-            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Отдел снабжения"));
-            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Отдел маркетинга"));
+            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Главный офис", true));
+            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Отдел логистики"));
+            FirmFactory.Instance.SubFirmTypes.AddType(new SubFirmType("Отдел продаж"));
 
-            // Инициализация типов контактов
-            FirmFactory.Instance.ContactTypes.AddType(new ContactType("Письмо послали", "Информационное письмо"));
-            FirmFactory.Instance.ContactTypes.AddType(new ContactType("Коммерческое предложение", "Предложение о сотрудничестве"));
+            FirmFactory.Instance.ContactTypes.AddType(new ContactType("Информационное письмо", "Оповещение"));
+            FirmFactory.Instance.ContactTypes.AddType(new ContactType("Деловое предложение", "Предложение сотрудничества"));
 
-            // Настройка пользовательских полей для каждой фирмы
-            FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "MarketShare", "Field3", "Field4", "Field5" });
+            FirmFactory.Instance.SetUserFieldNames(new string[] { "ClientPriority", "MarketCoverage", "CustomField1", "CustomField2", "CustomField3" });
 
             // Создаём несколько фирм с разными пользовательскими полями
             var firm1 = FirmFactory.Instance.CreateFirm();
-            firm1.FullName = "ООО Ромашка";
-            firm1.ShortName = "Ромашка";
-            firm1.Region = "Нижний Новгород";
-            firm1.City = "Н.Новгород";
-            firm1.Address = "ул. Цветочная, д.1";
-            firm1.CEO = "Иванов И.И.";
-            firm1.SetUserFieldValue("SpecialMark", "VIP");
-            firm1.SetUserFieldValue("MarketShare", "25%");
+            firm1.FullName = "ООО Сириус";
+            firm1.ShortName = "Сириус";
+            firm1.Region = "Санкт-Петербург";
+            firm1.City = "Санкт-Петербург";
+            firm1.Address = "ул. Космическая, д.42";
+            firm1.CEO = "Александров А.А.";
+            firm1.SetUserFieldValue("ClientPriority", "High");
+            firm1.SetUserFieldValue("MarketCoverage", "35%");
 
-            FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "EmployeeCount", "Revenue", "Field4", "Field5" });
+            FirmFactory.Instance.SetUserFieldNames(new string[] { "ClientPriority", "EmployeeCount", "AnnualTurnover", "CustomField2", "CustomField3" });
 
             var firm2 = FirmFactory.Instance.CreateFirm();
-            firm2.FullName = "ЗАО Ландыш";
-            firm2.ShortName = "Ландыш";
-            firm2.Region = "Нижний Новгород";
-            firm2.City = "Н.Новгород";
-            firm2.Address = "пр. Весенний, д.10";
-            firm2.CEO = "Петров П.П.";
-            firm2.SetUserFieldValue("SpecialMark", "");
-            firm2.SetUserFieldValue("EmployeeCount", "150");
-            firm2.SetUserFieldValue("Revenue", "500M RUB");
+            firm2.FullName = "ЗАО Вега";
+            firm2.ShortName = "Вега";
+            firm2.Region = "Санкт-Петербург";
+            firm2.City = "Санкт-Петербург";
+            firm2.Address = "пр. Мира, д.15";
+            firm2.CEO = "Смирнов С.С.";
+            firm2.SetUserFieldValue("ClientPriority", "");
+            firm2.SetUserFieldValue("EmployeeCount", "200");
+            firm2.SetUserFieldValue("AnnualTurnover", "1B RUB");
 
-            FirmFactory.Instance.SetUserFieldNames(new string[] { "SpecialMark", "InvestmentPotential", "PartnershipStatus", "Field4", "Field5" });
+            FirmFactory.Instance.SetUserFieldNames(new string[] { "ClientPriority", "InvestmentCapacity", "PartnershipStage", "CustomField2", "CustomField3" });
 
             var firm3 = FirmFactory.Instance.CreateFirm();
-            firm3.FullName = "ООО Одуванчик";
-            firm3.ShortName = "Одуванчик";
+            firm3.FullName = "ООО Альтаир";
+            firm3.ShortName = "Альтаир";
             firm3.Region = "Москва";
             firm3.City = "Москва";
-            firm3.Address = "ул. Садовая, д.3";
-            firm3.CEO = "Сидоров С.С.";
-            firm3.SetUserFieldValue("SpecialMark", "Silver");
-            firm3.SetUserFieldValue("InvestmentPotential", "High");
-            firm3.SetUserFieldValue("PartnershipStatus", "В разработке");
+            firm3.Address = "ул. Звездная, д.9";
+            firm3.CEO = "Кузнецов К.К.";
+            firm3.SetUserFieldValue("ClientPriority", "Medium");
+            firm3.SetUserFieldValue("InvestmentCapacity", "Moderate");
+            firm3.SetUserFieldValue("PartnershipStage", "Negotiation");
 
             // Добавим подразделения для фирм
-            var sbTypeSupply = FirmFactory.Instance.SubFirmTypes.GetByName("Отдел снабжения");
-            if (sbTypeSupply != null)
+            var sbTypeLogistics = FirmFactory.Instance.SubFirmTypes.GetByName("Отдел логистики");
+            if (sbTypeLogistics != null)
             {
-                var supplyDep = new SubFirm(sbTypeSupply, "Снабжение");
-                firm1.AddSubFirm(supplyDep);
+                var logisticsDep = new SubFirm(sbTypeLogistics, "Логистика");
+                firm1.AddSubFirm(logisticsDep);
             }
 
             // Создадим список всех фирм
@@ -75,40 +72,40 @@ namespace LoganovLab1
             Console.WriteLine("Список всех фирм:");
             allFirms.DeepPrint();
 
-            // Создадим прототип контакта "Письмо послали"
-            var mailContactType = FirmFactory.Instance.ContactTypes.GetTypeByName("Письмо послали");
-            var mailPrototype = new Contact
+            // Создадим прототип контакта "Информационное письмо"
+            var infoLetterType = FirmFactory.Instance.ContactTypes.GetTypeByName("Информационное письмо");
+            var infoLetterPrototype = new Contact
             {
-                ContactType = mailContactType,
+                ContactType = infoLetterType,
                 Date = DateTime.Now,
                 Description = "Отправлено приветственное письмо"
             };
 
-            // Отфильтруем фирмы из Нижнего Новгорода
-            var nnFirms = allFirms.FilterByRegion("Нижний Новгород");
+            // Отфильтруем фирмы из Санкт-Петербурга
+            var spbFirms = allFirms.FilterByRegion("Санкт-Петербург");
 
-            // Добавим контакт всем нижегородским фирмам в основной офис
-            nnFirms.AddContactToAllFirms(mailPrototype);
+            // Добавим контакт всем питерским фирмам в главный офис
+            spbFirms.AddContactToAllFirms(infoLetterPrototype);
 
-            Console.WriteLine("Создадим прототип контакта Письмо послали и добавим всем нижегородским фирмам в основной офис");
-            Console.WriteLine("Выведем фирмы которых коснулось изменение");
-            nnFirms.DeepPrint();
+            Console.WriteLine("Добавим контакт 'Информационное письмо' всем фирмам из Санкт-Петербурга в главный офис");
+            Console.WriteLine("Фирмы из Санкт-Петербурга после добавления контакта:");
+            spbFirms.DeepPrint();
 
-            // Добавим контакт "Коммерческое предложение" во все фирмы, у которых есть отдел снабжения
-            var commOfferType = FirmFactory.Instance.ContactTypes.GetTypeByName("Коммерческое предложение");
-            var commOfferPrototype = new Contact
+            // Добавим контакт "Деловое предложение" во все фирмы, у которых есть отдел логистики
+            var businessOfferType = FirmFactory.Instance.ContactTypes.GetTypeByName("Деловое предложение");
+            var businessOfferPrototype = new Contact
             {
-                ContactType = commOfferType,
+                ContactType = businessOfferType,
                 Date = DateTime.Now,
-                Description = "Отправлено КП"
+                Description = "Отправлено деловое предложение"
             };
 
-            var firmsWithSupply = allFirms.FilterBySubFirmType("Отдел снабжения");
-            firmsWithSupply.AddContactToAllFirmsWithSubFirmType(commOfferPrototype, "Отдел снабжения", true);
+            var firmsWithLogistics = allFirms.FilterBySubFirmType("Отдел логистики");
+            firmsWithLogistics.AddContactToAllFirmsWithSubFirmType(businessOfferPrototype, "Отдел логистики", true);
 
-            Console.WriteLine("Добавим в фирмы с отделом снабжения контакт коммерческое предложение");
-            Console.WriteLine("Фирмы с 'Отдел снабжения' после добавления 'Коммерческое предложение':");
-            firmsWithSupply.DeepPrint();
+            Console.WriteLine("Добавим контакт 'Деловое предложение' всем фирмам с отделом логистики");
+            Console.WriteLine("Фирмы с отделом логистики после добавления контакта:");
+            firmsWithLogistics.DeepPrint();
 
             Console.WriteLine("Конец программы");
             Console.WriteLine("Вывод всех фирм");
